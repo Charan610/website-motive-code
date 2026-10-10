@@ -37,15 +37,15 @@ export const ToolsPage: React.FC = () => {
         <div className="page-editorial-header">
           <div className="header-meta">
             <span className="mono-tag">// BUILDER ECOSYSTEM</span>
-            <span className="badge badge-neutral">{TOOLS_DATA.length} VERIFIED UTILITIES</span>
+            <span className="badge badge-neutral">{TOOLS_DATA.length} RESOURCES</span>
           </div>
 
           <h1 className="page-title display-title">
-            VERIFIED BUILDER TOOLS
+            Tools for thoughtful work
           </h1>
 
           <p className="page-lead">
-            Curated developer tools, local compute engines, and active recall utilities tested for real cognitive yield and zero sponsored clutter.
+            Independent third-party tools for learning, researching, and building. Review official access requirements before you begin.
           </p>
 
           <div style={{ marginTop: '20px' }}>
@@ -100,9 +100,9 @@ export const ToolsPage: React.FC = () => {
                   <span className="badge badge-neutral">{tool.category}</span>
                   <div className="flex-center" style={{ gap: '6px' }}>
                     {tool.verified && (
-                      <span className="badge badge-green" title="Verified Builder-Grade">
+                      <span className="badge badge-green" title="Official link checked">
                         <CheckCircle2 size={11} />
-                        VERIFIED
+                        LINK CHECKED
                       </span>
                     )}
                     <span className="badge badge-orange">{tool.pricing}</span>
@@ -115,7 +115,7 @@ export const ToolsPage: React.FC = () => {
 
                   <div className="tool-meta-block">
                     <span className="mono-tag" style={{ color: 'var(--orange)', fontSize: '0.68rem' }}>
-                      THE VALUE PROPOSITION:
+                      WHEN TO USE IT:
                     </span>
                     <p>{tool.whyItMatters}</p>
                   </div>

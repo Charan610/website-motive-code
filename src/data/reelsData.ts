@@ -1,3 +1,4 @@
+import { LEARNING_PROMPTS, LEARNING_TOOLS, LEARNING_WORKFLOW } from './learningData';
 import type { ReelItem } from '../types/content';
 
 export const REELS_DATA: ReelItem[] = [
@@ -12,7 +13,6 @@ export const REELS_DATA: ReelItem[] = [
     timeToBuild: '25 mins',
     tags: ['Active Recall', 'Prompt Architecture', 'CS Retention', 'Mental Models'],
     thumbnail: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-    instagramUrl: 'https://www.instagram.com/reel/C8_example/',
     publishedAt: 'Oct 2026',
     status: 'AVAILABLE',
     duration: '0:58',
@@ -499,5 +499,12 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
   }
 ];
 
+const learningReel = REELS_DATA[0];
+learningReel.coreThesis = 'Getting an answer from AI is not the same as understanding it.';
+learningReel.sections.intro.synopsis = 'Use AI to understand concepts, debug code, and build projects while keeping the thinking yours.';
+learningReel.sections.intro.scriptExcerpts = undefined;
+learningReel.sections.prompts = LEARNING_PROMPTS;
+learningReel.sections.resources = LEARNING_TOOLS;
+learningReel.sections.workflow = {id:'learning-workflow',title:'From question to capability',estimatedTime:'At your own pace',difficulty:'Beginner',prerequisites:['A topic or problem to explore'],steps:LEARNING_WORKFLOW.map(([title,details],i)=>({stepNumber:i+1,title,details}))};
 export const reelsData = REELS_DATA;
 

@@ -42,7 +42,7 @@ export const ProgressDashboardModal: React.FC<ProgressDashboardModalProps> = ({
     if (window.confirm('Are you sure you want to reset your local progress?')) {
       resetAllProgress();
       setProgress(getStoredProgress());
-      setStreak(1);
+      setStreak(0);
     }
   };
 

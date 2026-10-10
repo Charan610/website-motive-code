@@ -5,12 +5,12 @@ const STORAGE_KEY = 'motivation_code_user_progress_v1';
 export function getStoredProgress(): UserProgressData {
   if (typeof window === 'undefined') {
     return {
-      completedReels: ['reel-02'],
+      completedReels: [],
       completedWorkflows: [],
-      quizScores: { 'reel-02': 80 },
-      masteredFlashcards: ['fc-1'],
-      currentStreakDays: 3,
-      lastActiveDate: new Date().toISOString().split('T')[0],
+      quizScores: {},
+      masteredFlashcards: [],
+      currentStreakDays: 0,
+      lastActiveDate: '',
     };
   }
 
@@ -18,12 +18,12 @@ export function getStoredProgress(): UserProgressData {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       const initial: UserProgressData = {
-        completedReels: ['reel-02'],
+        completedReels: [],
         completedWorkflows: [],
-        quizScores: { 'reel-02': 80 },
-        masteredFlashcards: ['fc-1'],
-        currentStreakDays: 3,
-        lastActiveDate: new Date().toISOString().split('T')[0],
+        quizScores: {},
+        masteredFlashcards: [],
+        currentStreakDays: 0,
+        lastActiveDate: '',
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
       return initial;
@@ -35,8 +35,8 @@ export function getStoredProgress(): UserProgressData {
       completedWorkflows: [],
       quizScores: {},
       masteredFlashcards: [],
-      currentStreakDays: 1,
-      lastActiveDate: new Date().toISOString().split('T')[0],
+      currentStreakDays: 0,
+      lastActiveDate: '',
     };
   }
 }
@@ -51,7 +51,7 @@ export function saveProgress(progress: UserProgressData): void {
 }
 
 export function getStreak(): number {
-  return getStoredProgress().currentStreakDays || 1;
+  return getStoredProgress().currentStreakDays || 0;
 }
 
 export function isReelCompleted(reelId: string | number): boolean {
@@ -66,7 +66,12 @@ export function markReelCompleted(reelId: string | number, completed = true): vo
   if (completed) {
     if (!data.completedReels.includes(idStr)) {
       data.completedReels.push(idStr);
-      data.currentStreakDays = (data.currentStreakDays || 1) + 1;
+      const today = new Date().toLocaleDateString('en-CA');
+      const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+      if (data.lastActiveDate !== today) {
+        data.currentStreakDays = data.lastActiveDate === yesterday.toLocaleDateString('en-CA') ? data.currentStreakDays + 1 : 1;
+        data.lastActiveDate = today;
+      }
     }
   } else {
     data.completedReels = data.completedReels.filter((id) => id !== idStr);
@@ -121,8 +126,8 @@ export function resetAllProgress(): void {
     completedWorkflows: [],
     quizScores: {},
     masteredFlashcards: [],
-    currentStreakDays: 1,
-    lastActiveDate: new Date().toISOString().split('T')[0],
+    currentStreakDays: 0,
+    lastActiveDate: '',
   };
   saveProgress(blank);
 }

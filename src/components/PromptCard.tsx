@@ -8,13 +8,14 @@ interface PromptCardProps {
 }
 
 export const PromptCard: React.FC<PromptCardProps> = ({ prompt }) => {
+  const [editedText, setEditedText] = useState(prompt.promptText);
   const [copied, setCopied] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const { showToast } = useToast();
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(prompt.promptText);
+      await navigator.clipboard.writeText(editedText);
       setCopied(true);
       showToast(`Copied "${prompt.title}" to clipboard!`, 'success');
       setTimeout(() => setCopied(false), 2400);
@@ -78,9 +79,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({ prompt }) => {
 
       {/* Raw Prompt Text Preview */}
       <div className="prompt-code-container">
-        <pre className="prompt-pre">
-          <code>{prompt.promptText}</code>
-        </pre>
+        <textarea className="editable-prompt" aria-label={`Edit ${prompt.title} prompt`} value={editedText} onChange={e => { setEditedText(e.target.value); setCopied(false); }} />
       </div>
 
       {/* Rationale & Explanation Footer */}

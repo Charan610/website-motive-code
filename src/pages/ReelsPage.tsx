@@ -67,11 +67,11 @@ export const ReelsPage: React.FC = () => {
           </div>
 
           <h1 className="page-title display-title">
-            THE REELS LIBRARY
+            The Reel library
           </h1>
 
           <p className="page-lead">
-            Every Instagram Reel connects into an uncompromised resource lab: verified developer tools, Socratic prompts, and cognitive retainment protocols.
+            A short watch. A practical next step. Explore the prompts, tools, and workflows behind each Reel.
           </p>
         </div>
 
@@ -153,7 +153,7 @@ export const ReelsPage: React.FC = () => {
             <button
               onClick={() => {
                 setSearchQuery('');
-                setSelectedTopic('All');
+                handleTopicChange('All');
                 setSelectedDifficulty('All');
               }}
               className="btn btn-primary btn-sm"

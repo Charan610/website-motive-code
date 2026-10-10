@@ -14,7 +14,7 @@ export const VAULT_PROMPTS: PromptItem[] = [
   ...reelPrompts,
   {
     id: 'vault-01',
-    title: 'Zero-Hallucination Type Contract Enforcer',
+    title: 'Type Contract Planner',
     purpose: 'Forces LLMs to declare strict TypeScript types & interfaces before writing any runtime logic.',
     targetModel: 'Claude 3.7 / GPT-4o / DeepSeek R1',
     variables: ['[FEATURE_REQUIREMENTS]', '[DOMAIN]'],
@@ -30,7 +30,7 @@ Rules:
 2. Every error condition must be represented in a Discriminated Union.
 3. DO NOT write the function implementations yet (use \`throw new Error("unimplemented")\`).
 Explain the domain boundaries after the types.`,
-    explanation: 'Types act as algebraic bounds, constraining the token search space and preventing 90% of business logic hallucinations.',
+    explanation: 'Explicit types help you inspect assumptions before implementing business logic.',
     category: 'Architecture & Types',
     reelRef: 'Vault Architecture'
   },

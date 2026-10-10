@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import './index.css';
 import './styles/components.css';
+import './styles/workspace.css';
+import './styles/studio.css';
 import { ToastProvider } from './components/Toast';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CommandPalette } from './components/ui/CommandPalette';
 import { ProgressDashboardModal } from './components/ui/ProgressDashboardModal';
+import { LearningResourcePage } from './pages/LearningResourcePage';
 import { HomePage } from './pages/HomePage';
 import { ReelsPage } from './pages/ReelsPage';
 import { ReelDetailPage } from './pages/ReelDetailPage';
@@ -17,11 +20,12 @@ import { AboutPage } from './pages/AboutPage';
 
 // Scroll to top helper when switching routes
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) { document.getElementById(hash.slice(1))?.scrollIntoView(); }
+    else { window.scrollTo(0, 0); }
+  }, [pathname, hash]);
 
   return null;
 }
@@ -52,10 +56,12 @@ export function App() {
             onOpenProgress={() => setIsProgressOpen(true)}
           />
 
-          <main className="site-main">
+          <main className="site-main" id="main-content">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/reels" element={<ReelsPage />} />
+              <Route path="/reels/reel-02-ai-usage" element={<LearningResourcePage />} />
+              <Route path="/reels/reel-02" element={<LearningResourcePage />} />
               <Route path="/reels/:slug" element={<ReelDetailPage />} />
               <Route path="/prompts" element={<PromptsPage />} />
               <Route path="/tools" element={<ToolsPage />} />
