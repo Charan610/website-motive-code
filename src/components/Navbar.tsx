@@ -12,6 +12,7 @@ import {
   Menu,
   ChartNoAxesCombined,
   Sparkles,
+  Route,
 } from "lucide-react";
 export interface NavbarProps {
   onOpenCommandPalette?: () => void;
@@ -19,6 +20,7 @@ export interface NavbarProps {
 }
 const links = [
   { to: "/", label: "Overview", icon: LayoutDashboard },
+  { to: "/roadmap", label: "Engineering Roadmap", icon: Route, badge: "NEW" },
   { to: "/reels", label: "Reel library", icon: Clapperboard },
   { to: "/prompts", label: "Prompt library", icon: SquareTerminal },
   { to: "/tools", label: "Explore tools", icon: Compass },
@@ -60,7 +62,7 @@ export function Navbar({ onOpenCommandPalette, onOpenProgress }: NavbarProps) {
         </div>
         <span className="sidebar-caption">WORKSPACE</span>
         <nav aria-label="Main navigation">
-          {links.map(({ to, label, icon: Icon }) => (
+          {links.map(({ to, label, icon: Icon, badge }) => (
             <NavLink
               end={to === "/"}
               key={to}
@@ -73,6 +75,22 @@ export function Navbar({ onOpenCommandPalette, onOpenProgress }: NavbarProps) {
               <Icon size={18} />
               <span>{label}</span>
               {to === "/reels" && <small>04</small>}
+              {badge && (
+                <small
+                  style={{
+                    background: "rgba(240, 198, 116, 0.16)",
+                    color: "var(--accent, #f0c674)",
+                    border: "1px solid rgba(240, 198, 116, 0.3)",
+                    fontWeight: 700,
+                    letterSpacing: "0.04em",
+                    fontSize: "9px",
+                    padding: "1px 5px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  {badge}
+                </small>
+              )}
             </NavLink>
           ))}
           <button
@@ -143,9 +161,9 @@ export function Navbar({ onOpenCommandPalette, onOpenProgress }: NavbarProps) {
           <span>Search anything...</span>
           <kbd>⌘ K</kbd>
         </button>
-        <Link className="topbar-latest" to="/reels/reel-02-ai-usage">
+        <Link className="topbar-latest" to="/roadmap">
           <span className="workspace-dot" />
-          Reel 02 is here
+          Reel 03: What to learn next
           <ArrowUpRight size={14} />
         </Link>
       </header>

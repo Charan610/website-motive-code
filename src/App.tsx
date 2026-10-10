@@ -4,6 +4,7 @@ import './index.css';
 import './styles/components.css';
 import './styles/workspace.css';
 import './styles/studio.css';
+import './styles/roadmap.css';
 import { ToastProvider } from './components/Toast';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -11,6 +12,7 @@ import { CommandPalette } from './components/ui/CommandPalette';
 import { ProgressDashboardModal } from './components/ui/ProgressDashboardModal';
 import { LearningResourcePage } from './pages/LearningResourcePage';
 import { HomePage } from './pages/HomePage';
+import { RoadmapPage } from './pages/RoadmapPage';
 import { ReelsPage } from './pages/ReelsPage';
 import { ReelDetailPage } from './pages/ReelDetailPage';
 import { PromptsPage } from './pages/PromptsPage';
@@ -59,6 +61,8 @@ export function App() {
           <main className="site-main" id="main-content">
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/roadmap" element={<RoadmapPage />} />
+              <Route path="/roadmap/*" element={<RoadmapPage />} />
               <Route path="/reels" element={<ReelsPage />} />
               <Route path="/reels/reel-02-ai-usage" element={<LearningResourcePage />} />
               <Route path="/reels/reel-02" element={<LearningResourcePage />} />

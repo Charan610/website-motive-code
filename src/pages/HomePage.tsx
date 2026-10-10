@@ -209,6 +209,46 @@ export function HomePage() {
         </section>
         <PromptStudio />
       </div>
+
+      {/* Reel 03 Feature: The Engineering Roadmap Diagnostic */}
+      <section className="roadmap-spotlight-card" aria-labelledby="roadmap-spotlight-title">
+        <div className="spotlight-left">
+          <div className="spotlight-badge">
+            <span className="spotlight-dot" />
+            <span>REEL 03 DELIVERABLE · SRKR AUTONOMOUS</span>
+          </div>
+          <h2 id="roadmap-spotlight-title">
+            You’re in engineering.
+            <br />
+            <em>What should you learn next?</em>
+          </h2>
+          <p>
+            Stop collecting random tutorials. Take our 3-minute diagnostic for your branch, year, and goals. Get an evidence-based roadmap with verifiable build milestones.
+          </p>
+          <div className="spotlight-actions">
+            <Link to="/roadmap" className="btn-base btn-primary btn-md">
+              <span>Start 3-Minute Diagnostic</span>
+              <ArrowRight size={16} />
+            </Link>
+            <span className="spotlight-meta">
+              CSE · ECE · EEE · ME · R20 & R23 Regulations
+            </span>
+          </div>
+        </div>
+        <div className="spotlight-right" aria-hidden="true">
+          <div className="spotlight-stat-box">
+            <span className="stat-code">01</span>
+            <strong>Prerequisite Bridges</strong>
+            <small>Cold-recall checks on foundational gates</small>
+          </div>
+          <div className="spotlight-stat-box">
+            <span className="stat-code">02</span>
+            <strong>Observable Builds</strong>
+            <small>Explicit test commands & acceptance criteria</small>
+          </div>
+        </div>
+      </section>
+
       <section className="intentions-section">
         <div className="studio-section-title">
           <h2>What’s on your mind?</h2>

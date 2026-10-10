@@ -30,7 +30,13 @@ export const ReelDetailPage: React.FC = () => {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const { showToast } = useToast();
 
-  const reel = REELS_DATA.find((r) => r.slug === slug || r.id === slug) || REELS_DATA[0];
+  const reel =
+    REELS_DATA.find(
+      (r) =>
+        r.slug === slug ||
+        r.id === slug ||
+        (r.id === 'reel-03' && slug === 'reel-03-finishing-projects')
+    ) || REELS_DATA[0];
   const [completed, setCompleted] = useState<boolean>(false);
 
   useEffect(() => {

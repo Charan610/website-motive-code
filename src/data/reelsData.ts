@@ -385,59 +385,168 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
   },
   {
     id: 'reel-03',
-    slug: 'reel-03-finishing-projects',
+    slug: 'reel-03-what-to-learn-next',
     number: '03',
-    title: 'Why Your Side Projects Never Get Finished',
-    subtitle: 'The graveyard of half-built repos and how to ship to real users.',
-    topic: 'Builder Mindset',
-    difficulty: 'Advanced',
-    timeToBuild: '45 mins',
-    tags: ['Shipping', 'Scope Creep', 'SaaS Architecture', 'Junior Engineers'],
-    thumbnail: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
-    publishedAt: 'Upcoming',
+    title: "You're in Engineering: What Should You Learn Next?",
+    subtitle: 'Stop collecting random tutorials. An evidence-based roadmap for your branch and semester.',
+    topic: 'Engineering & CS',
+    difficulty: 'Intermediate',
+    timeToBuild: '20 mins',
+    tags: ['Curriculum Roadmap', 'SRKR Engineering', 'Prerequisite Checks', 'Verifiable Builds'],
+    thumbnail: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+    publishedAt: 'Oct 2026',
     status: 'AVAILABLE',
-    duration: '0:52',
-    coreThesis: 'You abandon projects at 80% because finishing requires dealing with unglamorous things: auth edge cases, error states, and real user feedback.',
-    editorialQuote: 'A simple working CRUD deployed on Vercel beats an ambitious unfinished microservice architecture every single day.',
-    hasInteractiveTool: false,
+    duration: '0:58',
+    coreThesis: 'Most engineering students fall into two traps: collecting tutorials without building, or jumping straight to advanced frameworks without foundational mental models. You need an explainable path: know where you are, what to learn next, what to build next, and how to verify readiness.',
+    editorialQuote: 'A student who can write a memory-safe buffer in raw C and explain the stack is 10x more valuable than someone who prompted a React dashboard they cannot modify.',
+    hasInteractiveTool: true,
     sections: {
       intro: {
-        synopsis: 'The architectural anti-patterns that cause developers to redesign and rewrite their side projects instead of pushing to production.',
-        context: 'Production-ready frameworks to cut scope by 70% and deploy within 48 hours.',
+        synopsis: 'Short-form Reel 03 broke down the reality: you ask seniors what to do and they say "learn MERN stack" or "learn AI". But if you do not understand pointers, OS threads, or circuit fundamentals, high-level tools will crumble. This resource connects your degree to verifiable skill milestones.',
+        context: 'Built specifically for SRKR Engineering College (Autonomous) students across CSE, ECE, EEE, and Mechanical Engineering, crosswalked against R20 and R23 autonomous regulations.',
+        scriptExcerpts: [
+          "You're in engineering. What should you learn next?",
+          "Everyone tells you to learn 5 different frameworks, 3 cloud certs, and 100 LeetCode problems.",
+          "Stop collecting roadmaps from people who never built systems.",
+          "Check where you are right now. Test your foundational prerequisites.",
+          "Build observable projects that prove competence, not tutorial completions."
+        ]
       },
-      whatYoullBuild: 'A Minimal Feasible Product deployment pipeline stripped of all non-essential abstractions.',
+      whatYoullBuild: 'A personalized semester action plan with tested prerequisite mental models, verifiable build milestones, and acceptance test commands.',
+      commonMistakes: [
+        {
+          mistake: 'Following generic 4-year internet roadmaps that ignore your actual branch curriculum.',
+          reality: 'Causes severe burnout and misalignment with college exams and practical engineering foundations.',
+          fix: 'Use branch-specific roadmap crosswalks mapped to your autonomous syllabus (R20/R23).'
+        },
+        {
+          mistake: 'Skipping foundational prerequisite checks (like C memory or basic circuit laws) to jump straight to AI.',
+          reality: 'Creates fragile understanding where errors cannot be diagnosed without LLMs.',
+          fix: 'Pass diagnostic gate checks. Complete recovery bridges before tackling advanced systems.'
+        },
+        {
+          mistake: 'Assuming watching course videos equals mastery.',
+          reality: 'Passive consumption triggers fluency illusion.',
+          fix: 'Require observable build projects with testable commands before progressing.'
+        }
+      ],
+      downloadableResource: {
+        title: 'SRKR Autonomous Engineering Action Plan & Markdown Checklist',
+        url: '/roadmap',
+        type: 'Interactive Roadmap Tool',
+        badge: 'Reel 03 Engine'
+      },
+      resources: [
+        {
+          id: 'res-srkr-roadmap',
+          name: 'Motivation Code Engineering Roadmap Engine',
+          category: 'Active Recall & Testing',
+          url: '/roadmap',
+          description: 'A 3-minute diagnostic engine tailored to SRKR autonomous curricula that tests mental models and outputs targeted build milestones.',
+          pricing: 'Built-in Tool',
+          isLocalOrBuiltIn: true,
+          whyItMatters: 'Provides explainable next actions rather than overwhelming multi-year checklists.',
+          limitations: 'Currently active for CSE, ECE, EEE, and ME.',
+          verified: true,
+          reelRef: 'Reel 03'
+        },
+        {
+          id: 'res-nptel-hrd',
+          name: 'NPTEL & SWAYAM Core Courses',
+          category: 'Deep Reading & Research',
+          url: 'https://nptel.ac.in/',
+          description: 'IIT faculty-curated courses for discrete mathematics, algorithms, signals & systems, and thermodynamics.',
+          pricing: 'Official Resource',
+          whyItMatters: 'Strict mathematical depth and syllabus alignment with autonomous engineering regulations.',
+          limitations: 'Requires high self-discipline to complete 12-week cycles.',
+          verified: true,
+          reelRef: 'Reel 03'
+        },
+        {
+          id: 'res-beej-c',
+          name: "Beej's Guide to C Programming & Network Sockets",
+          category: 'Code Architecture',
+          url: 'https://beej.us/guide/',
+          description: 'The gold standard free textbook on memory allocation, pointers, and POSIX socket programming.',
+          pricing: 'Free / Open-Source',
+          whyItMatters: 'Explains exactly what the OS and CPU do without distracting abstractions.',
+          limitations: 'Text-heavy; requires hands-on terminal practice.',
+          verified: true,
+          reelRef: 'Reel 03'
+        }
+      ],
       flashcards: [
         {
           id: 'fc-r3-1',
-          front: 'What is "Scope Creep Defense"?',
-          back: 'Adding features to a prototype to postpone the uncomfortable risk of public user feedback.',
-          hint: 'Fear of launching.'
+          front: 'What is a "Recovery Bridge" in engineering learning?',
+          back: 'A targeted, short remediation module that repairs missing foundational concepts (e.g. C pointers or circuit theorems) before advancing.',
+          hint: 'Repairing prerequisites before scaling.'
+        },
+        {
+          id: 'fc-r3-2',
+          front: 'Why should milestone completion require an observable build project?',
+          back: 'Watching a video only builds passive recognition. Building an artifact with passing test cases proves cognitive retention and execution competence.',
+          hint: 'Recognition vs. recall.'
         }
       ],
       quiz: [
         {
           id: 'q-r3-1',
-          question: 'What is the highest priority metric for a solo builder’s first release?',
+          question: 'What is the most effective approach for a 2nd year engineering student with missing 1st year fundamentals?',
           options: [
-            '100% test coverage and microservices.',
-            'A single working user flow deployed live on a public URL.',
-            'Custom Kubernetes deployment manifests.',
-            'A custom billing architecture.'
+            'Ignore the past and try to build a complex full-stack web application.',
+            'Run a focused 2-week recovery bridge to master the foundational gap (e.g. C pointers or circuit laws) before advancing.',
+            'Enroll in three new paid bootcamp certifications.',
+            'Switch branches.'
           ],
           correctIndex: 1,
-          explanation: 'Shipping a minimal single-flow product is the only way to validate demand and build execution confidence.'
+          explanation: 'Targeted recovery bridges restore the cognitive prerequisites necessary for durable higher-level reasoning.'
+        },
+        {
+          id: 'q-r3-2',
+          question: 'In the Motivation Code framework, how do you verify you are ready to progress to the next milestone?',
+          options: [
+            'By spending 20 hours watching video lectures.',
+            'By passing observable competency criteria and executing verifiable build projects with tests.',
+            'By getting 100% on an unproctored quiz.',
+            'By asking an AI to write your lab record.'
+          ],
+          correctIndex: 1,
+          explanation: 'Observable builds and unassisted explanation are the only reliable criteria of engineering readiness.'
         }
       ],
       problemAnalysis: {
-        title: 'Scope Creep as a Psychological Defense',
-        narrative: 'When we fear judgment on our software, we add more features to delay launching. True builders ship minimal, uncomfortably early prototypes.',
+        title: 'The Tutorial Collector Trap',
+        narrative: 'Students amass bookmarks, roadmaps, and certifications, yet hesitate to write code or analyze a circuit without AI or a tutorial. True engineering readiness is built through disciplined prerequisite checks and verifiable hands-on execution.',
         comparisons: [
           {
-            mistake: 'Adding payment tiers and complex roles before anyone has visited the homepage',
-            reality: 'Deploying a 1-page utility that solves one person’s headache today'
+            mistake: 'Downloading a 500-item GitHub roadmap and feeling overwhelmed',
+            reality: 'Focusing on the next 1–3 high-yield actions tailored to your specific semester and branch'
+          },
+          {
+            mistake: 'Assuming high GPA guarantees practical engineering capability',
+            reality: 'Complementing curriculum courses with independent verifiable build artifacts'
           }
         ]
-      }
+      },
+      interactiveTool: {
+        id: 'tool-engineering-roadmap',
+        title: 'The 3-Minute Engineering Roadmap Diagnostic',
+        description: 'Test your foundational mental models and get an explainable action plan for SRKR B.Tech curricula.',
+        type: 'reliance-audit'
+      },
+      nextSteps: [
+        {
+          title: 'Take the 3-Minute Engineering Roadmap Diagnostic',
+          link: '/roadmap',
+          description: 'Personalized to your branch, regulation, and current semester with recovery bridges.'
+        },
+        {
+          title: 'Explore the Socratic Prompt Desk',
+          link: '/prompts',
+          description: 'Force AI to interrogate your thinking rather than writing solutions for you.'
+        }
+      ]
     }
   },
   {

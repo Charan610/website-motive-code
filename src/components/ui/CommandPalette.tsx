@@ -41,6 +41,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   // Build searchable items
   const allItems: SearchItem[] = [
     // Fast Navigation links
+    { id: 'nav-roadmap', type: 'nav', title: 'Engineering Roadmap (SRKR)', subtitle: 'Personalized 3-minute diagnostic & action plan', badge: 'Route', url: '/roadmap' },
     { id: 'nav-reels', type: 'nav', title: 'Browse All Reels', subtitle: 'Explore complete reel library', badge: 'Route', url: '/reels' },
     { id: 'nav-prompts', type: 'nav', title: 'Prompt Vault', subtitle: 'Curated copy-paste engineering prompts', badge: 'Route', url: '/prompts' },
     { id: 'nav-tools', type: 'nav', title: 'Verified Tools Directory', subtitle: 'Inspect all tools used across reels', badge: 'Route', url: '/tools' },
