@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Clock, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Clock, Sparkles, CheckCircle2 } from 'lucide-react';
 import type { ReelItem } from '../types/content';
+import { isReelCompleted } from '../lib/progressStorage';
 
 interface ReelCardProps {
   reel: ReelItem;
@@ -10,6 +11,7 @@ interface ReelCardProps {
 
 export const ReelCard: React.FC<ReelCardProps> = ({ reel, featured = false }) => {
   const isAvailable = reel.status === 'AVAILABLE';
+  const completed = isReelCompleted(reel.id);
 
   return (
     <article className={`reel-editorial-card ${featured ? 'card-featured' : ''}`}>
@@ -24,6 +26,22 @@ export const ReelCard: React.FC<ReelCardProps> = ({ reel, featured = false }) =>
             <Clock size={11} />
             {reel.duration}
           </span>
+          {reel.timeToBuild && (
+            <span className="badge badge-secondary" title="Estimated build time">
+              ⏱ {reel.timeToBuild}
+            </span>
+          )}
+          {reel.difficulty && (
+            <span className={`badge ${reel.difficulty === 'Advanced' ? 'badge-accent' : 'badge-neutral'}`}>
+              {reel.difficulty}
+            </span>
+          )}
+          {completed && (
+            <span className="badge badge-success" title="Completed by you">
+              <CheckCircle2 size={11} />
+              Done
+            </span>
+          )}
           <span className={`badge ${isAvailable ? 'badge-orange' : 'badge-neutral'}`}>
             {isAvailable ? 'AVAILABLE NOW' : 'COMING NEXT'}
           </span>
@@ -47,9 +65,9 @@ export const ReelCard: React.FC<ReelCardProps> = ({ reel, featured = false }) =>
 
         <p className="card-subtitle">{reel.subtitle}</p>
 
-        {featured && (
+        {featured && reel.editorialQuote && (
           <blockquote className="featured-quote">
-            "{reel.editorialQuote}"
+            &ldquo;{reel.editorialQuote}&rdquo;
           </blockquote>
         )}
 

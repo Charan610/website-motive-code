@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, Filter, BookOpen } from 'lucide-react';
+import { Search, Filter, BookOpen, Gauge } from 'lucide-react';
 import { REELS_DATA } from '../data/reelsData';
-import type { ReelTopic } from '../types/content';
+import type { ReelTopic, DifficultyLevel } from '../types/content';
 import { ReelCard } from '../components/ReelCard';
 
 export const ReelsPage: React.FC = () => {
@@ -11,6 +11,7 @@ export const ReelsPage: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState<ReelTopic>(initialTopic);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('All');
 
   const topics: ReelTopic[] = [
     'All',
@@ -18,6 +19,13 @@ export const ReelsPage: React.FC = () => {
     'Engineering & CS',
     'Coding Workflows',
     'Builder Mindset'
+  ];
+
+  const difficulties: (string | DifficultyLevel)[] = [
+    'All',
+    'Beginner',
+    'Intermediate',
+    'Advanced'
   ];
 
   const handleTopicChange = (topic: ReelTopic) => {
@@ -33,6 +41,9 @@ export const ReelsPage: React.FC = () => {
   const filteredReels = useMemo(() => {
     return REELS_DATA.filter((reel) => {
       const matchesTopic = selectedTopic === 'All' || reel.topic === selectedTopic;
+      const matchesDifficulty =
+        selectedDifficulty === 'All' || reel.difficulty === selectedDifficulty;
+
       const q = searchQuery.toLowerCase().trim();
       const matchesQuery =
         !q ||
@@ -40,9 +51,10 @@ export const ReelsPage: React.FC = () => {
         reel.subtitle.toLowerCase().includes(q) ||
         reel.tags.some((t) => t.toLowerCase().includes(q)) ||
         reel.coreThesis.toLowerCase().includes(q);
-      return matchesTopic && matchesQuery;
+
+      return matchesTopic && matchesDifficulty && matchesQuery;
     });
-  }, [selectedTopic, searchQuery]);
+  }, [selectedTopic, selectedDifficulty, searchQuery]);
 
   return (
     <div className="reels-page-wrapper">
@@ -101,6 +113,23 @@ export const ReelsPage: React.FC = () => {
               </button>
             ))}
           </div>
+
+          {/* Difficulty Filter */}
+          <div className="topic-pills-row" style={{ marginTop: '8px' }}>
+            <div className="filter-pill-label">
+              <Gauge size={13} />
+              <span>DIFFICULTY:</span>
+            </div>
+            {difficulties.map((diff) => (
+              <button
+                key={diff}
+                onClick={() => setSelectedDifficulty(diff)}
+                className={`topic-pill ${selectedDifficulty === diff ? 'topic-pill-active' : ''}`}
+              >
+                {diff}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Reels Grid */}
@@ -110,21 +139,22 @@ export const ReelsPage: React.FC = () => {
               <ReelCard
                 key={reel.id}
                 reel={reel}
-                featured={index === 0 && selectedTopic === 'All' && !searchQuery}
+                featured={index === 0 && selectedTopic === 'All' && selectedDifficulty === 'All' && !searchQuery}
               />
             ))}
           </div>
         ) : (
           <div className="empty-state-card">
-            <BookOpen size={36} color="var(--orange)" />
+            <BookOpen size={36} color="var(--accent)" />
             <h3 style={{ marginTop: '16px', fontSize: '1.25rem' }}>No Reels found matching your criteria</h3>
             <p style={{ color: 'var(--text-secondary)', marginTop: '8px', maxWidth: '440px' }}>
-              We could not find any Reels matching "{searchQuery}". Try searching for terms like "AI", "Active Recall", or clear the filter.
+              We could not find any Reels matching &ldquo;{searchQuery}&rdquo;. Try clearing filters.
             </p>
             <button
               onClick={() => {
                 setSearchQuery('');
                 setSelectedTopic('All');
+                setSelectedDifficulty('All');
               }}
               className="btn btn-primary btn-sm"
               style={{ marginTop: '20px' }}

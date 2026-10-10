@@ -6,6 +6,8 @@ export type ReelTopic =
   | 'Retention & Study' 
   | 'Builder Mindset';
 
+export type DifficultyLevel = 'Beginner' | 'Intermediate' | 'Advanced' | 'Foundational' | 'Architect';
+
 export type ResourceCategory = 
   | 'All'
   | 'Local AI & Dev' 
@@ -21,6 +23,8 @@ export interface PromptItem {
   promptText: string;
   explanation: string;
   variables: string[];
+  category?: string;
+  reelRef?: string;
 }
 
 export interface WorkflowStepItem {
@@ -35,7 +39,7 @@ export interface WorkflowItem {
   id: string;
   title: string;
   estimatedTime: string;
-  difficulty: 'Foundational' | 'Intermediate' | 'Architect';
+  difficulty: DifficultyLevel;
   prerequisites: string[];
   steps: WorkflowStepItem[];
 }
@@ -54,11 +58,43 @@ export interface ResourceItem {
   reelRef?: string;
 }
 
+export interface FlashcardItem {
+  id: string;
+  front: string;
+  back: string;
+  hint?: string;
+  category?: string;
+  codeSnippet?: string;
+}
+
+export interface QuizQuestionItem {
+  id: string;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
 export interface InteractiveToolConfig {
   id: string;
   title: string;
   description: string;
   type: 'concept-feynman' | 'prompt-evaluator' | 'reliance-audit';
+}
+
+export interface CommonMistakeItem {
+  mistake: string;
+  reality: string;
+  fix: string;
+}
+
+export interface DownloadableResourceItem {
+  title: string;
+  url: string;
+  description?: string;
+  format?: string;
+  type?: 'PDF Guide' | 'Prompt Pack' | 'Anki Deck' | 'Boilerplate Repo' | string;
+  badge?: string;
 }
 
 export interface ReelContentSections {
@@ -67,6 +103,7 @@ export interface ReelContentSections {
     scriptExcerpts?: string[];
     context: string;
   };
+  whatYoullBuild?: string;
   problemAnalysis: {
     title: string;
     narrative: string;
@@ -75,9 +112,14 @@ export interface ReelContentSections {
       reality: string;
     }[];
   };
+  commonMistakes?: CommonMistakeItem[];
   resources?: ResourceItem[];
   prompts?: PromptItem[];
   workflow?: WorkflowItem;
+  flashcards?: FlashcardItem[];
+  quiz?: QuizQuestionItem[];
+  downloadableResource?: DownloadableResourceItem;
+  downloadables?: DownloadableResourceItem[];
   interactiveTool?: InteractiveToolConfig;
   examples?: {
     title: string;
@@ -91,6 +133,7 @@ export interface ReelContentSections {
   }[];
 }
 
+
 export interface ReelItem {
   id: string;
   slug: string;
@@ -98,8 +141,11 @@ export interface ReelItem {
   title: string;
   subtitle: string;
   topic: 'AI & LLMs' | 'Engineering & CS' | 'Coding Workflows' | 'Retention & Study' | 'Builder Mindset';
+  difficulty: DifficultyLevel;
+  timeToBuild: string;
   tags: string[];
   thumbnail: string;
+  instagramUrl?: string;
   publishedAt: string;
   status: 'AVAILABLE' | 'COMING_NEXT' | 'IN_PRODUCTION';
   duration: string;
@@ -121,4 +167,13 @@ export interface PlaybookItem {
   workflow: WorkflowItem;
   prompts: PromptItem[];
   relatedReelSlug?: string;
+}
+
+export interface UserProgressData {
+  completedReels: string[];
+  completedWorkflows: string[];
+  quizScores: { [reelId: string]: number };
+  masteredFlashcards: string[];
+  currentStreakDays: number;
+  lastActiveDate: string;
 }

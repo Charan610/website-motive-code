@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
   ArrowLeft, 
@@ -7,7 +7,12 @@ import {
   Share2, 
   MessageSquarePlus, 
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  CheckCircle2,
+  Sparkles,
+  AlertTriangle,
+  Download,
+  BookOpen
 } from 'lucide-react';
 import { REELS_DATA } from '../data/reelsData';
 import { PromptCard } from '../components/PromptCard';
@@ -15,6 +20,10 @@ import { WorkflowStep } from '../components/WorkflowStep';
 import { InteractiveAudit } from '../components/InteractiveAudit';
 import { FeedbackModal } from '../components/FeedbackModal';
 import { useToast } from '../components/Toast';
+import { FlashcardDeck } from '../components/ui/FlashcardDeck';
+import { QuizWidget } from '../components/ui/QuizWidget';
+import { Accordion } from '../components/ui/Accordion';
+import { isReelCompleted, markReelCompleted } from '../lib/progressStorage';
 
 export const ReelDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -22,6 +31,21 @@ export const ReelDetailPage: React.FC = () => {
   const { showToast } = useToast();
 
   const reel = REELS_DATA.find((r) => r.slug === slug || r.id === slug) || REELS_DATA[0];
+  const [completed, setCompleted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setCompleted(isReelCompleted(reel.id));
+  }, [reel.id]);
+
+  const toggleCompleted = () => {
+    const next = !completed;
+    markReelCompleted(reel.id, next);
+    setCompleted(next);
+    showToast(
+      next ? `Marked Reel #${reel.number} as completed! Streak recorded.` : `Marked Reel #${reel.number} as in-progress.`,
+      next ? 'success' : 'info'
+    );
+  };
 
   const handleShare = async () => {
     try {
@@ -58,11 +82,23 @@ export const ReelDetailPage: React.FC = () => {
             </div>
 
             <div className="detail-quick-actions">
-              <button onClick={handleShare} className="icon-action-btn" title="Share Reel Hub">
+              <button
+                type="button"
+                onClick={toggleCompleted}
+                className={`icon-action-btn ${completed ? 'action-btn-active' : ''}`}
+                title={completed ? 'Completed' : 'Mark as completed'}
+              >
+                <CheckCircle2 size={15} color={completed ? 'var(--accent)' : 'currentColor'} />
+                <span>{completed ? 'Completed' : 'Mark Complete'}</span>
+              </button>
+
+              <button type="button" onClick={handleShare} className="icon-action-btn" title="Share Reel Hub">
                 <Share2 size={15} />
                 <span>Share</span>
               </button>
+
               <button 
+                type="button"
                 onClick={() => setFeedbackOpen(true)} 
                 className="icon-action-btn"
                 title="Propose Resource or Tool"
@@ -88,6 +124,12 @@ export const ReelDetailPage: React.FC = () => {
                   <Clock size={11} />
                   {reel.duration}
                 </span>
+                {reel.difficulty && (
+                  <span className="badge badge-secondary">{reel.difficulty}</span>
+                )}
+                {reel.timeToBuild && (
+                  <span className="badge badge-neutral">⏱ {reel.timeToBuild}</span>
+                )}
                 <span className="badge badge-cyan">{reel.topic}</span>
               </div>
 
@@ -99,8 +141,19 @@ export const ReelDetailPage: React.FC = () => {
                 {reel.subtitle}
               </p>
 
+              {/* What You'll Build Callout */}
+              {sections.whatYoullBuild && (
+                <div className="what-youll-build-box">
+                  <div className="wyb-badge">
+                    <Sparkles size={14} color="var(--accent)" />
+                    <span className="mono-tag" style={{ color: 'var(--accent)' }}>WHAT YOU WILL BUILD</span>
+                  </div>
+                  <p className="wyb-text">{sections.whatYoullBuild}</p>
+                </div>
+              )}
+
               <blockquote className="reel-manifesto-quote">
-                "{reel.editorialQuote}"
+                &ldquo;{reel.editorialQuote}&rdquo;
               </blockquote>
 
               <div className="reel-tags-strip">
@@ -126,7 +179,7 @@ export const ReelDetailPage: React.FC = () => {
                     sections.intro.scriptExcerpts.map((line, idx) => (
                       <div key={idx} className="script-row">
                         <span className="script-row-idx">0{idx + 1}</span>
-                        <p className="script-row-text">{line}</p>
+                        <p className="script-row-text">&ldquo;{line}&rdquo;</p>
                       </div>
                     ))
                   ) : (
@@ -179,6 +232,41 @@ export const ReelDetailPage: React.FC = () => {
       )}
 
       {/* =========================================================================
+          SECTION 2B — COMMON MISTAKES ACCORDION
+          ========================================================================= */}
+      {sections.commonMistakes && sections.commonMistakes.length > 0 && (
+        <section className="section-block mistakes-section">
+          <div className="container">
+            <div className="block-header">
+              <span className="mono-tag">// CRITICAL TRAPS</span>
+              <h2 className="block-title">Common Mistakes to Avoid</h2>
+              <p className="block-narrative">
+                Patterns where junior engineers get stuck when attempting this workflow, and the immediate fix.
+              </p>
+            </div>
+
+            <Accordion
+              items={sections.commonMistakes.map((m, idx) => ({
+                id: `mistake-${idx}`,
+                title: m.mistake,
+                subtitle: m.reality,
+                badge: 'Pitfall',
+                content: (
+                  <div className="mistake-fix-box">
+                    <div className="fix-header">
+                      <AlertTriangle size={15} color="var(--accent)" />
+                      <strong>Corrective Architecture / Protocol:</strong>
+                    </div>
+                    <p className="fix-text">{m.fix}</p>
+                  </div>
+                ),
+              }))}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* =========================================================================
           SECTION 3 — COPYABLE PROMPTS
           ========================================================================= */}
       {sections.prompts && sections.prompts.length > 0 && (
@@ -205,7 +293,7 @@ export const ReelDetailPage: React.FC = () => {
           SECTION 4 — INTERACTIVE UTILITIES (RETENTION & AUDIT TOOL)
           ========================================================================= */}
       {sections.interactiveTool && (
-        <section className="section-block interactive-tool-section">
+        <section className="section-block interactive-tool-section" id="interactive-tool-anchor">
           <div className="container">
             <InteractiveAudit />
           </div>
@@ -248,7 +336,48 @@ export const ReelDetailPage: React.FC = () => {
       )}
 
       {/* =========================================================================
-          SECTION 6 — CONFIGURABLE RESOURCES LIST
+          SECTION 5B — ACTIVE RECALL PLAYBOOK (FLASHCARDS + 5-QUESTION QUIZ)
+          ========================================================================= */}
+      {((sections.flashcards && sections.flashcards.length > 0) || (sections.quiz && sections.quiz.length > 0)) && (
+        <section className="section-block playbook-section" id="active-recall-section">
+          <div className="container">
+            <div className="block-header">
+              <span className="mono-tag">// RETENTION PROTOCOL</span>
+              <h2 className="block-title">Active-Recall Playbook</h2>
+              <p className="block-narrative">
+                Reading is recognition; retrieval is recall. Flip these interactive cards and complete the 5-question test to cement these mental models.
+              </p>
+            </div>
+
+            <div className="playbook-split-grid">
+              {/* Flashcards column */}
+              {sections.flashcards && sections.flashcards.length > 0 && (
+                <div className="playbook-col">
+                  <div className="playbook-card-title">
+                    <BookOpen size={16} color="var(--accent)" />
+                    <span>3D Concept Flashcards</span>
+                  </div>
+                  <FlashcardDeck cards={sections.flashcards} reelId={reel.id} />
+                </div>
+              )}
+
+              {/* Quiz column */}
+              {sections.quiz && sections.quiz.length > 0 && (
+                <div className="playbook-col">
+                  <div className="playbook-card-title">
+                    <Sparkles size={16} color="var(--accent-secondary)" />
+                    <span>5-Question Active Recall Quiz</span>
+                  </div>
+                  <QuizWidget questions={sections.quiz} reelId={reel.id} />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* =========================================================================
+          SECTION 6 — CONFIGURABLE RESOURCES & DOWNLOADS
           ========================================================================= */}
       {sections.resources && sections.resources.length > 0 && (
         <section className="section-block resources-section">
@@ -258,10 +387,11 @@ export const ReelDetailPage: React.FC = () => {
                 <span className="mono-tag">// VERIFIED TOOLKIT</span>
                 <h2 className="block-title">Recommended Offline & Builder Tools</h2>
                 <p className="block-narrative">
-                  Handpicked utilities specifically relevant to mastering this Reel's core principles.
+                  Handpicked utilities specifically relevant to mastering this Reel&apos;s core principles.
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => setFeedbackOpen(true)}
                 className="btn btn-secondary btn-sm"
               >
@@ -311,6 +441,30 @@ export const ReelDetailPage: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            {/* Downloadable Resources */}
+            {sections.downloadables && sections.downloadables.length > 0 && (
+              <div className="downloadables-strip" style={{ marginTop: '32px' }}>
+                <h4 style={{ fontSize: '1.1rem', marginBottom: '16px', color: 'var(--text-primary)' }}>
+                  Downloadable Templates & Checklists
+                </h4>
+                <div className="downloadables-grid">
+                  {sections.downloadables.map((d, idx) => (
+                    <div key={idx} className="download-card">
+                      <div className="download-info">
+                        <span className="badge badge-sm badge-secondary">{d.format}</span>
+                        <h5 className="download-title">{d.title}</h5>
+                        <p className="download-desc">{d.description}</p>
+                      </div>
+                      <a href={d.url} download className="btn-base btn-secondary btn-sm">
+                        <Download size={14} />
+                        <span>Download</span>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       )}

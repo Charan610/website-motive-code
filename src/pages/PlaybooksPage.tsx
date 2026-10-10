@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { Clock, ArrowUpRight, CheckCircle2, Sparkles, BookOpen } from 'lucide-react';
 import { PLAYBOOKS_DATA } from '../data/playbooksData';
+import { REELS_DATA } from '../data/reelsData';
 import { PromptCard } from '../components/PromptCard';
 import { WorkflowStep } from '../components/WorkflowStep';
+import { FlashcardDeck } from '../components/ui/FlashcardDeck';
+import { QuizWidget } from '../components/ui/QuizWidget';
 
 export const PlaybooksPage: React.FC = () => {
   const [selectedPlaybookId, setSelectedPlaybookId] = useState<string>(PLAYBOOKS_DATA[0].id);
 
   const activePlaybook = PLAYBOOKS_DATA.find((p) => p.id === selectedPlaybookId) || PLAYBOOKS_DATA[0];
+
+  const matchedReel = activePlaybook.relatedReelSlug
+    ? REELS_DATA.find((r) => r.slug === activePlaybook.relatedReelSlug)
+    : undefined;
 
   return (
     <div className="playbooks-page-wrapper">
@@ -21,11 +28,11 @@ export const PlaybooksPage: React.FC = () => {
           </div>
 
           <h1 className="page-title display-title">
-            ACTION PLAYBOOKS
+            ACTIVE-RECALL PLAYBOOKS
           </h1>
 
           <p className="page-lead">
-            In-depth engineering protocols that translate high-level conceptual ideas into reproducible, command-by-command reality in your code editor.
+            In-depth engineering protocols that translate high-level conceptual ideas into reproducible, command-by-command reality with active-recall drills and spaced repetition testing.
           </p>
         </div>
 
@@ -63,8 +70,8 @@ export const PlaybooksPage: React.FC = () => {
 
             <div className="sidebar-tip-box">
               <div className="flex-center" style={{ gap: '8px', justifyContent: 'flex-start' }}>
-                <CheckCircle2 size={16} color="var(--green)" />
-                <span className="mono-tag" style={{ color: 'var(--green)' }}>BUILDER DISCIPLINE</span>
+                <CheckCircle2 size={16} color="var(--accent)" />
+                <span className="mono-tag" style={{ color: 'var(--accent)' }}>BUILDER DISCIPLINE</span>
               </div>
               <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
                 Never run an automated script without reading every line first. Software engineering is the art of precise intent.
@@ -118,7 +125,7 @@ export const PlaybooksPage: React.FC = () => {
 
             {/* Step-by-Step Workflow */}
             <div className="playbook-workflow-block">
-              <span className="mono-tag" style={{ color: 'var(--green)', display: 'block', marginBottom: '16px' }}>
+              <span className="mono-tag" style={{ color: 'var(--accent)', display: 'block', marginBottom: '16px' }}>
                 // SEQUENTIAL WORKFLOW
               </span>
 
@@ -132,6 +139,34 @@ export const PlaybooksPage: React.FC = () => {
                 ))}
               </div>
             </div>
+
+            {/* Interactive Flashcards & Quiz Drills if matched with a reel */}
+            {matchedReel?.sections.flashcards && matchedReel.sections.flashcards.length > 0 && (
+              <div className="playbook-flashcards-drill" style={{ marginTop: '48px' }}>
+                <span className="mono-tag" style={{ color: 'var(--accent)', display: 'block', marginBottom: '16px' }}>
+                  // ACTIVE-RECALL RETRIEVAL DRILL
+                </span>
+                <div className="playbook-split-grid">
+                  <div className="playbook-col">
+                    <div className="playbook-card-title">
+                      <BookOpen size={16} color="var(--accent)" />
+                      <span>Interactive 3D Flashcards</span>
+                    </div>
+                    <FlashcardDeck cards={matchedReel.sections.flashcards} reelId={matchedReel.id} />
+                  </div>
+
+                  {matchedReel.sections.quiz && matchedReel.sections.quiz.length > 0 && (
+                    <div className="playbook-col">
+                      <div className="playbook-card-title">
+                        <Sparkles size={16} color="var(--accent-secondary)" />
+                        <span>Active Recall Quiz Drill</span>
+                      </div>
+                      <QuizWidget questions={matchedReel.sections.quiz} reelId={matchedReel.id} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Integrated Prompts */}
             {activePlaybook.prompts && activePlaybook.prompts.length > 0 && (

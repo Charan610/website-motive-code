@@ -8,8 +8,11 @@ export const REELS_DATA: ReelItem[] = [
     title: "You're Using AI Wrong",
     subtitle: 'Stop collecting answers. Start building mental models.',
     topic: 'AI & LLMs',
+    difficulty: 'Intermediate',
+    timeToBuild: '25 mins',
     tags: ['Active Recall', 'Prompt Architecture', 'CS Retention', 'Mental Models'],
     thumbnail: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+    instagramUrl: 'https://www.instagram.com/reel/C8_example/',
     publishedAt: 'Oct 2026',
     status: 'AVAILABLE',
     duration: '0:58',
@@ -28,25 +31,30 @@ export const REELS_DATA: ReelItem[] = [
           "Stop collecting answers. Start building skills."
         ]
       },
-      problemAnalysis: {
-        title: 'The Illusion of Competence',
-        narrative: 'When an AI outputs an elegant explanation or code snippet in 3 seconds, your brain experiences fluency illusion: because the text is easily understood, your brain assumes it has mastered the concept. But recognition is not recall, and consumption is not execution.',
-        comparisons: [
-          {
-            mistake: 'Prompting: "Write me a binary search tree in TypeScript with insert & delete."',
-            reality: 'Prompting: "Quiz me on edge cases when deleting a node with two children in a BST. Do not give me code until I explain the pointer logic."'
-          },
-          {
-            mistake: 'Copying code blocks directly into your editor without reading line-by-line.',
-            reality: 'Typing every line by hand, deliberately asking: "Why did the model pick this data structure over an indexed map?"'
-          },
-          {
-            mistake: 'Using AI to rewrite your bugged function before inspecting call stacks.',
-            reality: 'Feeding only the error trace: "Explain what condition causes this boundary violation without writing the fix."'
-          }
-        ]
+      whatYoullBuild: 'An unassisted, self-contained implementation of an algorithmic mental model with zero copilot aids, verified by a strict Socratic interrogation test.',
+      commonMistakes: [
+        {
+          mistake: 'Copying generated code directly into production files.',
+          reality: 'Creates phantom familiarity where syntax looks obvious but cannot be modified under stress.',
+          fix: 'Re-type every line by hand in a scratch file while verbalizing the memory invariants.'
+        },
+        {
+          mistake: 'Asking the LLM: "Fix this error for me."',
+          reality: 'Leaves you blind to runtime call stack mechanics.',
+          fix: 'Feed only the error line: "Explain what runtime condition triggers this invariant violation without giving the code fix."'
+        },
+        {
+          mistake: 'Stopping when tests pass once.',
+          reality: 'Edge cases and concurrency race conditions remain undetected.',
+          fix: 'Prompt the model: "What 3 boundary conditions break this code when load multiplies 100x?"'
+        }
+      ],
+      downloadableResource: {
+        title: 'The Socratic Sparring Cheat Sheet & System Prompts',
+        url: '#prompts-section',
+        type: 'Prompt Pack',
+        badge: 'Official Pack'
       },
-      // Note: Configurable resources area ready for specific additions
       resources: [
         {
           id: 'res-socratic-prompt',
@@ -54,7 +62,7 @@ export const REELS_DATA: ReelItem[] = [
           category: 'Active Recall & Testing',
           url: '#prompts-section',
           description: 'A tuned system prompt that forces LLMs to reject giving direct solutions, interrogating your mental gaps instead.',
-          pricing: 'Free / Open-Source',
+          pricing: 'Built-in Tool',
           isLocalOrBuiltIn: true,
           whyItMatters: 'Forces high cognitive friction, resulting in 4x long-term retention compared to passive reading.',
           limitations: 'Requires patience; slower than instant copy-pasting answers.',
@@ -114,7 +122,9 @@ When I answer:
 1. Identify any missing edge cases, flawed assumptions, or buzzwords in my explanation.
 2. Ask the next question that forces me to reason deeper.
 Keep your questions strict, concise, and focused on real-world engineering tradeoffs.`,
-          explanation: 'Reverses the dynamic from passive information consumption to active retrieval, strengthening synaptic pathways through cognitive friction.'
+          explanation: 'Reverses the dynamic from passive information consumption to active retrieval, strengthening synaptic pathways through cognitive friction.',
+          category: 'Socratic Interrogation',
+          reelRef: 'Reel 02'
         },
         {
           id: 'prompt-feynman-hunter',
@@ -132,7 +142,9 @@ Critique this strictly:
 2. What physical analogy or mental model is flawed in my description?
 3. What is the single biggest question a junior engineer would still have after reading my explanation?
 DO NOT rewrite my explanation for me. Just diagnose my blind spots.`,
-          explanation: 'Detects the "Illusion of Explanatory Depth" before an exam or job interview uncovers it.'
+          explanation: 'Detects the "Illusion of Explanatory Depth" before an exam or job interview uncovers it.',
+          category: 'Cognitive Diagnostics',
+          reelRef: 'Reel 02'
         },
         {
           id: 'prompt-tradeoff-audit',
@@ -143,14 +155,104 @@ DO NOT rewrite my explanation for me. Just diagnose my blind spots.`,
           promptText: `I am planning to implement [CHOSEN_STACK_OR_PATTERN] for [SYSTEM_GOAL].
 List the 3 catastrophic failure modes or scaling bottlenecks this choice introduces when throughput increases by 100x.
 For each failure mode, ask me how I plan to mitigate it, without suggesting the solution yourself.`,
-          explanation: 'Instills architectural skepticism — the core trait distinguishing senior builders from prompt-copying students.'
+          explanation: 'Instills architectural skepticism — the core trait distinguishing senior builders from prompt-copying students.',
+          category: 'Systems Design',
+          reelRef: 'Reel 02'
+        }
+      ],
+      flashcards: [
+        {
+          id: 'fc-1',
+          front: 'What is the "Fluency Illusion" when using AI for coding?',
+          back: 'Because an AI-generated explanation feels easy to read and understand, your brain falsely assumes it has mastered the concept without forming true synaptic recall pathways.',
+          hint: 'Think about the difference between recognition vs recall.'
+        },
+        {
+          id: 'fc-2',
+          front: 'Why does "Cognitive Friction" produce 4x higher retention?',
+          back: 'Active retrieval forces neural reconstruction of the solution pathway, releasing neuromodulators that signal the brain to encode long-term memory.',
+          hint: 'Relates to the Bjork desirable difficulties principle.'
+        },
+        {
+          id: 'fc-3',
+          front: 'What is the core rule of the Socratic Sparring Prompt?',
+          back: 'Forbid the model from outputting direct code or definitions. Require it to ask one probing technical edge-case question at a time.',
+          hint: 'Transforms the AI from an oracle into an examiner.'
+        },
+        {
+          id: 'fc-4',
+          front: 'What is the "Cold Recall Draft" step in the protocol?',
+          back: 'Taking 5 to 10 minutes with zero internet access to sketch out your initial mental model and pseudo-code on a blank canvas.',
+          hint: 'The friction of initial failure primes the brain.'
+        }
+      ],
+      quiz: [
+        {
+          id: 'q-1',
+          question: 'When an AI outputs code in 2 seconds, which psychological cognitive bias is primarily triggered?',
+          options: [
+            'Dunning-Kruger Effect',
+            'Fluency Illusion (Recognition without Recall)',
+            'Confirmation Bias',
+            'Sunk Cost Fallacy'
+          ],
+          correctIndex: 1,
+          explanation: 'Fluency illusion occurs when high readability tricks the brain into mistaking effortless comprehension for durable independent competence.'
+        },
+        {
+          id: 'q-2',
+          question: 'What is the primary difference between a junior prompt and an architect-grade Socratic prompt?',
+          options: [
+            'Junior prompts ask for answers; architect prompts ask for failure modes and critique of the engineer\'s draft.',
+            'Architect prompts are 1,000 words longer.',
+            'Junior prompts use smaller models.',
+            'Architect prompts only request Python code.'
+          ],
+          correctIndex: 0,
+          explanation: 'Architects force the model to stress-test their mental models and highlight blind spots rather than blindly delegating architectural decisions.'
+        },
+        {
+          id: 'q-3',
+          question: 'In the 4-Stage Active AI Protocol, what MUST happen before opening the AI chat window?',
+          options: [
+            'Install three new VS Code extensions.',
+            'Write a 5-minute unassisted Cold Recall Draft on a blank page.',
+            'Search GitHub issues.',
+            'Read 10 medium blog posts.'
+          ],
+          correctIndex: 1,
+          explanation: 'The unassisted Cold Recall Draft isolates the exact boundary where certainty breaks down, priming neural networks to retain the answer.'
+        },
+        {
+          id: 'q-4',
+          question: 'Why should software developers learn local-first offline tools like Ollama and Anki?',
+          options: [
+            'Because cloud servers are always shut down.',
+            'To ensure cognitive and tooling capability remains intact when offline, without vendor lock-in.',
+            'Because open-source models are always faster than frontier models.',
+            'To save 5 dollars on cloud bills.'
+          ],
+          correctIndex: 1,
+          explanation: 'Offline independence ensures deep conceptual retention and zero telemetry reliance for proprietary engineering.'
+        },
+        {
+          id: 'q-5',
+          question: 'What is the "Jargon Hunter" test designed to detect?',
+          options: [
+            'Grammar errors in your code comments.',
+            'Hand-wavy filler words (like "basically" or "under the hood") used to disguise gaps in mechanical understanding.',
+            'Unsupported TypeScript syntax.',
+            'Slow HTTP response headers.'
+          ],
+          correctIndex: 1,
+          explanation: 'Students frequently use technical jargon as a defense mechanism when they cannot describe what actually happens to pointers or memory at runtime.'
         }
       ],
       workflow: {
         id: 'wf-active-recall-ai',
         title: 'The 4-Stage Active AI Synthesis Protocol',
         estimatedTime: '25-35 minutes per concept',
-        difficulty: 'Foundational',
+        difficulty: 'Intermediate',
         prerequisites: ['Blank notepad or Excalidraw tab', 'Target concept or code problem'],
         steps: [
           {
@@ -176,6 +278,24 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
             title: 'Implement in Raw Code',
             details: 'Write a self-contained test case or minimal reproducing script in your IDE without copilot auto-complete turned on. Verify passing test runs.',
             codeOrCommand: 'node test-concept.mjs # Must execute with zero external boilerplate'
+          }
+        ]
+      },
+      problemAnalysis: {
+        title: 'The Illusion of Competence',
+        narrative: 'When an AI outputs an elegant explanation or code snippet in 3 seconds, your brain experiences fluency illusion: because the text is easily understood, your brain assumes it has mastered the concept. But recognition is not recall, and consumption is not execution.',
+        comparisons: [
+          {
+            mistake: 'Prompting: "Write me a binary search tree in TypeScript with insert & delete."',
+            reality: 'Prompting: "Quiz me on edge cases when deleting a node with two children in a BST. Do not give me code until I explain the pointer logic."'
+          },
+          {
+            mistake: 'Copying code blocks directly into your editor without reading line-by-line.',
+            reality: 'Typing every line by hand, deliberately asking: "Why did the model pick this data structure over an indexed map?"'
+          },
+          {
+            mistake: 'Using AI to rewrite your bugged function before inspecting call stacks.',
+            reality: 'Feeding only the error trace: "Explain what condition causes this boundary violation without writing the fix."'
           }
         ]
       },
@@ -206,6 +326,8 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
     title: 'The Illusion of 100 Browser Tabs',
     subtitle: 'Why bookmarking and tab hoarding is the enemy of building.',
     topic: 'Coding Workflows',
+    difficulty: 'Beginner',
+    timeToBuild: '15 mins',
     tags: ['Developer Workflow', 'Focus', 'Attention Economy', 'Building'],
     thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
     publishedAt: 'Sep 2026',
@@ -219,6 +341,36 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
         synopsis: 'Why keeping 87 tabs open across three browser windows destroys working memory and stalls real software engineering.',
         context: 'Actionable protocols to transition from infinite passive reading into deliberate terminal execution.',
       },
+      whatYoullBuild: 'A lightweight Single-Tab Terminal Protocol with a persistent scratch file architecture.',
+      commonMistakes: [
+        {
+          mistake: 'Leaving 50 tabs open as "reading backlog".',
+          reality: 'Creates micro-distractions and consumes 4GB of RAM without ever being read.',
+          fix: 'Bookmark to an offline markdown file or discard immediately.'
+        }
+      ],
+      flashcards: [
+        {
+          id: 'fc-r1-1',
+          front: 'What psychological effect causes tab hoarding?',
+          back: 'Open Loop Anxiety (Zeigarnik Effect). The brain holds active tension for unfinished research tasks.',
+          hint: 'Unfinished tasks demand working memory.'
+        }
+      ],
+      quiz: [
+        {
+          id: 'q-r1-1',
+          question: 'What is the single most effective way to eliminate tab hoarding during development?',
+          options: [
+            'Buy a 49-inch curved monitor.',
+            'Dump references into an offline scratch markdown note and close the browser.',
+            'Use a tab suspender extension.',
+            'Open more browser windows.'
+          ],
+          correctIndex: 1,
+          explanation: 'Externalizing references into an active text file releases working memory loops.'
+        }
+      ],
       problemAnalysis: {
         title: 'Working Memory Fragmentation',
         narrative: 'Every open tab represents an unresolved open loop in your cognitive stack. High-leverage builders maintain extreme single-focus workspaces.',
@@ -238,10 +390,12 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
     title: 'Why Your Side Projects Never Get Finished',
     subtitle: 'The graveyard of half-built repos and how to ship to real users.',
     topic: 'Builder Mindset',
+    difficulty: 'Advanced',
+    timeToBuild: '45 mins',
     tags: ['Shipping', 'Scope Creep', 'SaaS Architecture', 'Junior Engineers'],
     thumbnail: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
     publishedAt: 'Upcoming',
-    status: 'COMING_NEXT',
+    status: 'AVAILABLE',
     duration: '0:52',
     coreThesis: 'You abandon projects at 80% because finishing requires dealing with unglamorous things: auth edge cases, error states, and real user feedback.',
     editorialQuote: 'A simple working CRUD deployed on Vercel beats an ambitious unfinished microservice architecture every single day.',
@@ -251,6 +405,29 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
         synopsis: 'The architectural anti-patterns that cause developers to redesign and rewrite their side projects instead of pushing to production.',
         context: 'Production-ready frameworks to cut scope by 70% and deploy within 48 hours.',
       },
+      whatYoullBuild: 'A Minimal Feasible Product deployment pipeline stripped of all non-essential abstractions.',
+      flashcards: [
+        {
+          id: 'fc-r3-1',
+          front: 'What is "Scope Creep Defense"?',
+          back: 'Adding features to a prototype to postpone the uncomfortable risk of public user feedback.',
+          hint: 'Fear of launching.'
+        }
+      ],
+      quiz: [
+        {
+          id: 'q-r3-1',
+          question: 'What is the highest priority metric for a solo builder’s first release?',
+          options: [
+            '100% test coverage and microservices.',
+            'A single working user flow deployed live on a public URL.',
+            'Custom Kubernetes deployment manifests.',
+            'A custom billing architecture.'
+          ],
+          correctIndex: 1,
+          explanation: 'Shipping a minimal single-flow product is the only way to validate demand and build execution confidence.'
+        }
+      ],
       problemAnalysis: {
         title: 'Scope Creep as a Psychological Defense',
         narrative: 'When we fear judgment on our software, we add more features to delay launching. True builders ship minimal, uncomfortably early prototypes.',
@@ -270,10 +447,12 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
     title: 'How Senior Engineers Read Documentation',
     subtitle: 'Stop reading tutorials. Start understanding RFCs and specifications.',
     topic: 'Engineering & CS',
+    difficulty: 'Advanced',
+    timeToBuild: '30 mins',
     tags: ['Specifications', 'Systems Design', 'Documentation', 'Seniority'],
     thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80',
     publishedAt: 'Upcoming',
-    status: 'COMING_NEXT',
+    status: 'AVAILABLE',
     duration: '1:02',
     coreThesis: 'Tutorials teach you how someone else solved a problem yesterday. Documentation and source code teach you how the system actually behaves today.',
     editorialQuote: 'The best developers in the world do not google solutions. They read the source code and the RFC.',
@@ -283,6 +462,29 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
         synopsis: 'A breakdown of the reading strategy used by staff engineers when approaching complex open-source frameworks.',
         context: 'How to navigate RFC specs, GitHub pull request discussions, and type definition files.',
       },
+      whatYoullBuild: 'A source-diving workflow: inspect TypeScript .d.ts files and RFC specs to diagnose library edge cases.',
+      flashcards: [
+        {
+          id: 'fc-r4-1',
+          front: 'Where is the ground truth of any TypeScript library located?',
+          back: 'Inside the node_modules/@types definition files and original exported source, not blog tutorials.',
+          hint: 'Cmd+Click function definitions.'
+        }
+      ],
+      quiz: [
+        {
+          id: 'q-r4-1',
+          question: 'What is the fastest way to understand the invariant contracts of an open-source library?',
+          options: [
+            'Search random Medium tutorials.',
+            'Inspect the exported TypeScript interfaces and unit test suite.',
+            'Ask on Reddit.',
+            'Wait for a YouTube course.'
+          ],
+          correctIndex: 1,
+          explanation: 'Unit tests and type definitions explicitly document expected inputs, failure conditions, and intended design.'
+        }
+      ],
       problemAnalysis: {
         title: 'The Medium-Post Trap',
         narrative: 'Outdated blog posts create cargo-cult patterns. Learn to read TypeScript declarations and source implementations directly.',
@@ -296,3 +498,6 @@ For each failure mode, ask me how I plan to mitigate it, without suggesting the 
     }
   }
 ];
+
+export const reelsData = REELS_DATA;
+

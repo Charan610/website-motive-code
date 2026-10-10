@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sparkles, Search, Flame } from 'lucide-react';
+import { getStreak } from '../lib/progressStorage';
 
-export const Navbar: React.FC = () => {
+export interface NavbarProps {
+  onOpenCommandPalette?: () => void;
+  onOpenProgress?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
+  onOpenCommandPalette,
+  onOpenProgress,
+}) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [streak, setStreak] = useState(getStreak());
   const location = useLocation();
 
   useEffect(() => {
@@ -15,6 +25,12 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const update = () => setStreak(getStreak());
+    window.addEventListener('progress_updated', update);
+    return () => window.removeEventListener('progress_updated', update);
+  }, []);
+
   // Close mobile drawer on route change
   useEffect(() => {
     setMobileOpen(false);
@@ -22,6 +38,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Reels Library', path: '/reels' },
+    { name: 'Prompt Vault', path: '/prompts' },
     { name: 'Tools', path: '/tools' },
     { name: 'Playbooks', path: '/playbooks' },
     { name: 'Philosophy', path: '/about' },
@@ -41,8 +58,8 @@ export const Navbar: React.FC = () => {
           <Link to="/" className="brand-logo" aria-label="Motivation Code Homepage">
             <div className="logo-glyph">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M4 20V4L10 12L12 8L14 12L20 4V20" stroke="#BD5A38" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="20" cy="20" r="2" fill="#568494"/>
+                <path d="M4 20V4L10 12L12 8L14 12L20 4V20" stroke="#FF5E1E" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="20" cy="20" r="2" fill="#00E5FF"/>
               </svg>
             </div>
             <div className="brand-text">
@@ -64,12 +81,38 @@ export const Navbar: React.FC = () => {
             ))}
           </nav>
 
-          {/* Action Area: Latest Reel Indicator */}
+          {/* Action Area: Command Palette, Streak Tracker & Latest Reel */}
           <div className="header-actions">
+            {/* Command Palette Trigger */}
+            <button
+              type="button"
+              className="nav-cmd-trigger"
+              onClick={onOpenCommandPalette}
+              title="Search reels, tools, and prompts (⌘K)"
+              aria-label="Search"
+            >
+              <Search size={14} className="cmd-icon" />
+              <span className="cmd-text">Search</span>
+              <kbd className="cmd-shortcut">⌘K</kbd>
+            </button>
+
+            {/* Streak & Progress Button */}
+            <button
+              type="button"
+              className="nav-streak-btn"
+              onClick={onOpenProgress}
+              title="View builder progress and active recall streak"
+              aria-label="Progress dashboard"
+            >
+              <Flame size={14} className="streak-flame" />
+              <span className="streak-count">{streak}</span>
+            </button>
+
+            {/* Latest Reel Indicator */}
             <Link to="/reels/reel-02-ai-usage" className="reel-live-pill" title="Jump to Reel 02 Resources">
               <span className="pulse-dot" />
               <span className="pill-prefix">REEL 02:</span>
-              <span className="pill-title">YOU'RE USING AI WRONG</span>
+              <span className="pill-title">YOU&apos;RE USING AI WRONG</span>
               <ArrowUpRight size={14} className="pill-arrow" />
             </Link>
 
@@ -100,6 +143,32 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
+          <div className="mobile-actions-strip">
+            <button
+              type="button"
+              className="mobile-cmd-btn"
+              onClick={() => {
+                setMobileOpen(false);
+                onOpenCommandPalette?.();
+              }}
+            >
+              <Search size={16} />
+              <span>Search everything (⌘K)</span>
+            </button>
+
+            <button
+              type="button"
+              className="mobile-streak-chip"
+              onClick={() => {
+                setMobileOpen(false);
+                onOpenProgress?.();
+              }}
+            >
+              <Flame size={16} color="var(--accent)" />
+              <span>Streak: {streak} days</span>
+            </button>
+          </div>
+
           <div className="mobile-links-list">
             <Link
               to="/"
@@ -124,7 +193,7 @@ export const Navbar: React.FC = () => {
               <span className="mono-tag" style={{ color: 'var(--accent)' }}>FEATURED DISCOVERY</span>
             </div>
             <h4 style={{ fontSize: '1rem', margin: '8px 0 4px', color: 'var(--text-primary)' }}>
-              Reel 02: You're Using AI Wrong
+              Reel 02: You&apos;re Using AI Wrong
             </h4>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '14px' }}>
               Explore the dedicated resource hub, Socratic prompts, and cognitive retainment protocol.

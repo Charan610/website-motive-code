@@ -99,3 +99,6 @@ export const TOOLS_DATA: ResourceItem[] = [
     reelRef: 'Reel 01'
   }
 ];
+
+export const toolsData = TOOLS_DATA;
+

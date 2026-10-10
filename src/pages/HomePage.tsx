@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Compass
 } from 'lucide-react';
+import { QuickEntryBox } from '../components/ui/QuickEntryBox';
 import { REELS_DATA } from '../data/reelsData';
 import { TOOLS_DATA } from '../data/toolsData';
 import { ReelCard } from '../components/ReelCard';
@@ -19,7 +20,7 @@ export const HomePage: React.FC = () => {
   return (
     <div className="homepage-wrapper">
       {/* =========================================================================
-          HERO SECTION — CALM EDITORIAL TYPOGRAPHY & INTERACTIVE COMPARISON
+          HERO SECTION — CALM EDITORIAL TYPOGRAPHY & QUICK ENTRY JUMP
           ========================================================================= */}
       <section className="hero-editorial-section">
         <div className="container">
@@ -32,17 +33,17 @@ export const HomePage: React.FC = () => {
 
           <div className="hero-headline-block">
             <h1 className="display-title hero-main-title">
-              From Short-Form Insight<br />
-              <span className="hero-highlight-word">to Verifiable Software.</span>
+              Build Real Skills<br />
+              <span className="hero-highlight-word">Beyond The Prompt.</span>
             </h1>
             <p className="hero-lead-paragraph">
-              Short-form video is designed for passive consumption. <strong>Motivation Code</strong> bridges the gap: every Reel becomes a gateway into deep Socratic prompts, structured architectural workflows, and permanent mental models.
+              Motivation Code turns short-form Instagram Reels into concrete action. You watched a reel—now execute the verified workflow, copy tested system prompts, and lock in the knowledge through active recall playbooks.
             </p>
           </div>
 
           <div className="hero-cta-group">
             <Link to="/reels/reel-02-ai-usage" className="btn btn-primary btn-lg">
-              <span>Open Reel 02 Lab: You're Using AI Wrong</span>
+              <span>Explore Reel 02: You&apos;re Using AI Wrong</span>
               <ArrowUpRight size={16} />
             </Link>
 
@@ -51,6 +52,10 @@ export const HomePage: React.FC = () => {
               <span>Browse All Reels</span>
             </Link>
           </div>
+
+          {/* Quick-Entry Box: "Came from a reel?" */}
+          <QuickEntryBox />
+
 
           {/* Hero Interactive Comparison Panel */}
           <div className="hero-sandbox-panel">
