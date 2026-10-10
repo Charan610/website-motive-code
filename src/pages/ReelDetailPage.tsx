@@ -116,7 +116,7 @@ export const ReelDetailPage: React.FC = () => {
             <div className="hero-script-col">
               <div className="script-reconstruction-card">
                 <div className="card-top-strip">
-                  <span className="mono-tag" style={{ color: 'var(--orange)' }}>
+                  <span className="mono-tag">
                     // VERBATIM SCRIPT HIGHLIGHTS
                   </span>
                 </div>
@@ -150,7 +150,7 @@ export const ReelDetailPage: React.FC = () => {
         <section className="section-block problem-section">
           <div className="container">
             <div className="block-header">
-              <span className="mono-tag" style={{ color: 'var(--red)' }}>// THE ARCHITECTURAL DIAGNOSIS</span>
+              <span className="mono-tag">// THE ARCHITECTURAL DIAGNOSIS</span>
               <h2 className="block-title">{sections.problemAnalysis.title}</h2>
               <p className="block-narrative">{sections.problemAnalysis.narrative}</p>
             </div>
@@ -185,7 +185,7 @@ export const ReelDetailPage: React.FC = () => {
         <section className="section-block prompts-section" id="prompts-section">
           <div className="container">
             <div className="block-header">
-              <span className="mono-tag" style={{ color: 'var(--orange)' }}>// BATTLE-TESTED PROMPTS</span>
+              <span className="mono-tag">// BATTLE-TESTED PROMPTS</span>
               <h2 className="block-title">Socratic System Prompts</h2>
               <p className="block-narrative">
                 Never accept unearned answers. Copy these strict Socratic prompts to convert your AI model into a ruthless oral examiner.
@@ -221,12 +221,12 @@ export const ReelDetailPage: React.FC = () => {
             <div className="block-header">
               <div className="flex-between" style={{ flexWrap: 'wrap', gap: '12px' }}>
                 <div>
-                  <span className="mono-tag" style={{ color: 'var(--green)' }}>// EXECUTION METHOD</span>
+                  <span className="mono-tag">// EXECUTION METHOD</span>
                   <h2 className="block-title">{sections.workflow.title}</h2>
                 </div>
                 <div className="workflow-meta-pills">
                   <span className="badge badge-neutral">EST. {sections.workflow.estimatedTime}</span>
-                  <span className="badge badge-green">{sections.workflow.difficulty}</span>
+                  <span className="badge badge-neutral">{sections.workflow.difficulty}</span>
                 </div>
               </div>
               <p className="block-narrative">
@@ -255,7 +255,7 @@ export const ReelDetailPage: React.FC = () => {
           <div className="container">
             <div className="block-header flex-between" style={{ flexWrap: 'wrap', gap: '16px' }}>
               <div>
-                <span className="mono-tag" style={{ color: 'var(--cyan)' }}>// VERIFIED TOOLKIT</span>
+                <span className="mono-tag">// VERIFIED TOOLKIT</span>
                 <h2 className="block-title">Recommended Offline & Builder Tools</h2>
                 <p className="block-narrative">
                   Handpicked utilities specifically relevant to mastering this Reel's core principles.

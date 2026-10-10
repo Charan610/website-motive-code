@@ -29,7 +29,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({ prompt }) => {
       <div className="prompt-header">
         <div className="prompt-title-group">
           <div className="prompt-icon-badge">
-            <Terminal size={16} color="var(--orange)" />
+            <Terminal size={14} color="var(--accent)" />
           </div>
           <div>
             <h4 className="prompt-title">{prompt.title}</h4>
@@ -39,7 +39,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({ prompt }) => {
 
         <div className="prompt-meta-group">
           <span className="badge badge-neutral" title="Recommended AI Model">
-            <Sparkles size={11} color="var(--cyan)" />
+            <Sparkles size={11} color="var(--text-tertiary)" />
             {prompt.targetModel}
           </span>
           <button

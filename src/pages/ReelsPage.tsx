@@ -50,7 +50,7 @@ export const ReelsPage: React.FC = () => {
         {/* Editorial Header */}
         <div className="page-editorial-header">
           <div className="header-meta">
-            <span className="mono-tag" style={{ color: 'var(--orange)' }}>// CONTENT REPOSITORY</span>
+            <span className="mono-tag">// CONTENT REPOSITORY</span>
             <span className="badge badge-neutral">{REELS_DATA.length} REELS CATALOGUED</span>
           </div>
 

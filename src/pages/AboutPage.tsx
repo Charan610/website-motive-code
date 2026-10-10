@@ -8,7 +8,7 @@ export const AboutPage: React.FC = () => {
       <div className="container container-narrow">
         {/* Editorial Header */}
         <div className="about-editorial-header">
-          <span className="mono-tag" style={{ color: 'var(--orange)' }}>// MANIFESTO & ORIGIN</span>
+          <span className="mono-tag">// MANIFESTO & ORIGIN</span>
           <h1 className="page-title display-title" style={{ marginTop: '8px' }}>
             WHY MOTIVATION CODE EXISTS
           </h1>
@@ -34,8 +34,8 @@ export const AboutPage: React.FC = () => {
 
           <section className="narrative-section highlight-box">
             <div className="flex-center" style={{ gap: '10px', justifyContent: 'flex-start', marginBottom: '8px' }}>
-              <Flame size={20} color="var(--orange)" />
-              <span className="mono-tag" style={{ color: 'var(--orange)' }}>THE CORE PRINCIPLE</span>
+              <Flame size={18} color="var(--accent)" />
+              <span className="mono-tag" style={{ color: 'var(--accent)' }}>THE CORE PRINCIPLE</span>
             </div>
             <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', lineHeight: 1.3 }}>
               "Don't ask AI to think for you. Use it to think with you."

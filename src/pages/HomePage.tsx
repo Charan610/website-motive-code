@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { 
   ArrowUpRight, 
   Terminal, 
-  Zap, 
   BookOpen, 
   ArrowRight,
-  Flame,
   CheckCircle2,
-  Cpu
+  Compass
 } from 'lucide-react';
 import { REELS_DATA } from '../data/reelsData';
 import { TOOLS_DATA } from '../data/toolsData';
@@ -21,44 +19,40 @@ export const HomePage: React.FC = () => {
   return (
     <div className="homepage-wrapper">
       {/* =========================================================================
-          HERO SECTION — EDITORIAL TYPOGRAPHY & INTERACTIVE COMPARISON
+          HERO SECTION — CALM EDITORIAL TYPOGRAPHY & INTERACTIVE COMPARISON
           ========================================================================= */}
       <section className="hero-editorial-section">
         <div className="container">
           <div className="hero-top-badge-row">
-            <div className="status-indicator">
-              <span className="pulse-dot" />
-              <span>THE CONTENT-TO-ACTION PLATFORM</span>
-            </div>
+            <span className="mono-tag">// A CONTENT-TO-ACTION PLATFORM</span>
             <span className="mono-tag" style={{ color: 'var(--text-tertiary)' }}>
-              // BUILT FOR STUDENTS & DEVELOPERS
+              FOR ENGINEERING STUDENTS & BUILDERS
             </span>
           </div>
 
           <div className="hero-headline-block">
             <h1 className="display-title hero-main-title">
-              SHORT-FORM IS THE SPARK.<br />
-              <span className="hero-highlight-word">THIS IS THE FIRE.</span>
+              From Short-Form Insight<br />
+              <span className="hero-highlight-word">to Verifiable Software.</span>
             </h1>
             <p className="hero-lead-paragraph">
-              Most social content ends with mindless scrolling. At <strong>Motivation Code</strong>, every Instagram Reel is an entry point into deep engineering playbooks, copyable Socratic prompts, verified offline tools, and permanent mental models.
+              Short-form video is designed for passive consumption. <strong>Motivation Code</strong> bridges the gap: every Reel becomes a gateway into deep Socratic prompts, structured architectural workflows, and permanent mental models.
             </p>
           </div>
 
           <div className="hero-cta-group">
             <Link to="/reels/reel-02-ai-usage" className="btn btn-primary btn-lg">
-              <Flame size={18} />
-              <span>Enter Reel 02 Lab: You're Using AI Wrong</span>
-              <ArrowUpRight size={18} />
+              <span>Open Reel 02 Lab: You're Using AI Wrong</span>
+              <ArrowUpRight size={16} />
             </Link>
 
             <Link to="/reels" className="btn btn-secondary btn-lg">
-              <BookOpen size={18} />
+              <BookOpen size={16} />
               <span>Browse All Reels</span>
             </Link>
           </div>
 
-          {/* Hero Interactive Live Demo: "Fluency Illusion vs The Socratic Method" */}
+          {/* Hero Interactive Comparison Panel */}
           <div className="hero-sandbox-panel">
             <div className="sandbox-panel-header">
               <div className="sandbox-tabs">
@@ -67,20 +61,20 @@ export const HomePage: React.FC = () => {
                   onClick={() => setActiveHeroTab('passive')}
                 >
                   <span className="tab-dot dot-red" />
-                  <span>How 95% Use AI (Passive Copying)</span>
+                  <span>The Passive AI Trap (Fluency Illusion)</span>
                 </button>
                 <button
                   className={`sandbox-tab ${activeHeroTab === 'active' ? 'active-hero' : ''}`}
                   onClick={() => setActiveHeroTab('active')}
                 >
                   <span className="tab-dot dot-orange" />
-                  <span>The Motivation Code Protocol (Active Recall)</span>
+                  <span>The Active Socratic Protocol (True Recall)</span>
                 </button>
               </div>
 
               <div className="sandbox-badge">
-                <span className="mono-tag" style={{ color: activeHeroTab === 'active' ? 'var(--orange)' : 'var(--red)' }}>
-                  {activeHeroTab === 'active' ? 'RETENTION: 94%' : 'RETENTION: 0%'}
+                <span className="mono-tag">
+                  {activeHeroTab === 'active' ? 'RETENTION: 94% (RECALL)' : 'RETENTION: 0% (RECOGNITION)'}
                 </span>
               </div>
             </div>
@@ -89,28 +83,27 @@ export const HomePage: React.FC = () => {
               {activeHeroTab === 'passive' ? (
                 <div className="sandbox-mock-run">
                   <div className="terminal-line user-line">
-                    <span className="prompt-prefix">student@macbook:~$</span>
-                    <span className="prompt-cmd">"Write me the full authentication controller for Express.js"</span>
+                    <span className="prompt-prefix">student@terminal:~$</span>
+                    <span className="prompt-cmd">"Write the full JWT refresh rotation handler for my Express API."</span>
                   </div>
                   <div className="terminal-output passive-output">
-                    <span className="output-tag">// AI GENERATES 140 LINES IN 2.1 SECONDS</span>
+                    <span className="output-tag">// AI DISPENSES 120 LINES OF SYNTAX IN 2 SECONDS</span>
                     <p className="output-snippet">
-                      Student copies code → Pastes in editor → Tests once → Commits.<br />
-                      <strong style={{ color: 'var(--red)' }}>THE TRAP:</strong> In tomorrow's technical interview, when asked how JWT refresh rotation mitigates token replay attacks, the student freezes.
+                      The student skims the code, pastes it, and moves on. The exam is passed, but the mental model was never forged. The moment the prompt box vanishes in a technical interview, the engineer is paralyzed.
                     </p>
                   </div>
                 </div>
               ) : (
                 <div className="sandbox-mock-run">
                   <div className="terminal-line user-line">
-                    <span className="prompt-prefix">builder@macbook:~$</span>
-                    <span className="prompt-cmd">"I drafted this auth state. Ask me 2 questions where token revocation fails."</span>
+                    <span className="prompt-prefix">builder@terminal:~$</span>
+                    <span className="prompt-cmd">"I drafted this token rotation model. Quiz me on 2 edge cases where revocation fails."</span>
                   </div>
                   <div className="terminal-output active-output">
-                    <span className="output-tag active-tag">// SOCRATIC SPARRING ENGAGED</span>
+                    <span className="output-tag active-tag">// SOCRATIC SPARRING PROTOCOL ENGAGED</span>
                     <p className="output-snippet">
-                      AI: "Question 1: If a user changes their password on Device A, what prevents an active stolen access token on Device B from remaining valid until its 15-minute expiry?"<br />
-                      <strong style={{ color: 'var(--green)' }}>THE RESULT:</strong> The developer reasons through blacklists and token generation. The mental model is forged permanently.
+                      Model: "Question 1: If an attacker intercepts a compromised refresh token before the legitimate client sends it, how does your database detect concurrent use and invalidate the entire token family?"<br />
+                      The builder reasons through race conditions and database locks. The understanding is permanent.
                     </p>
                   </div>
                 </div>
@@ -121,17 +114,61 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          FEATURED REEL 02 SPOTLIGHT — EDITORIAL HERO CARD
+          SECTION 2 — THE MOTIVATION CODE PHILOSOPHY (CLEAR PURPOSE)
+          ========================================================================= */}
+      <section className="lifecycle-section">
+        <div className="container">
+          <div className="section-header-row">
+            <div>
+              <span className="mono-tag">// THE CORE THESIS</span>
+              <h2 className="section-title">The Three Pillars of Practical Mastery</h2>
+            </div>
+            <Link to="/about" className="btn btn-outline btn-sm">
+              <span>Read Manifesto</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          <div className="lifecycle-steps-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+            <div className="lifecycle-card">
+              <div className="step-num-pill">01</div>
+              <h4 className="lifecycle-card-title">Cognitive Friction Over Cheap Speed</h4>
+              <p className="lifecycle-card-copy">
+                When an AI generates answers instantly, your brain confuses fluency with mastery. Lasting retention requires the mental strain of retrieval.
+              </p>
+            </div>
+
+            <div className="lifecycle-card">
+              <div className="step-num-pill">02</div>
+              <h4 className="lifecycle-card-title">Systems & Mental Models Over Syntax</h4>
+              <p className="lifecycle-card-copy">
+                Frameworks and APIs change constantly. Distributed architectures, memory hierarchies, and concurrency primitives remain invariant.
+              </p>
+            </div>
+
+            <div className="lifecycle-card">
+              <div className="step-num-pill">03</div>
+              <h4 className="lifecycle-card-title">Offline Verification</h4>
+              <p className="lifecycle-card-copy">
+                Your capability as an engineer should not evaporate when the internet cuts out. We champion local tools, offline docs, and raw terminal builds.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 3 — FEATURED REEL 02 LAB SPOTLIGHT
           ========================================================================= */}
       <section className="featured-reel-section">
         <div className="container">
           <div className="section-header-row">
             <div>
-              <span className="mono-tag" style={{ color: 'var(--orange)' }}>// LATEST RELEASE</span>
-              <h2 className="section-title">Reel 02 Dedicated Resource Lab</h2>
+              <span className="mono-tag">// FLAGSHIP RESOURCE HUB</span>
+              <h2 className="section-title">Reel 02: "You're Using AI Wrong"</h2>
             </div>
             <Link to="/reels/reel-02-ai-usage" className="btn btn-outline btn-sm">
-              <span>View Full Lab</span>
+              <span>Open Dedicated Lab</span>
               <ArrowUpRight size={14} />
             </Link>
           </div>
@@ -140,8 +177,8 @@ export const HomePage: React.FC = () => {
             <div className="spotlight-left">
               <div className="spotlight-tags">
                 <span className="badge badge-orange">REEL #02</span>
-                <span className="badge badge-cyan">0:58 DURATION</span>
-                <span className="badge badge-neutral">AI & LLMS</span>
+                <span className="badge badge-neutral">0:58 DURATION</span>
+                <span className="badge badge-neutral">ACTIVE RECALL</span>
               </div>
 
               <h3 className="spotlight-title">{reel02.title}</h3>
@@ -153,23 +190,23 @@ export const HomePage: React.FC = () => {
 
               <div className="spotlight-features-list">
                 <div className="feature-item">
-                  <CheckCircle2 size={16} color="var(--orange)" />
+                  <CheckCircle2 size={15} color="var(--accent)" />
                   <span>3 Copyable Socratic System Prompts</span>
                 </div>
                 <div className="feature-item">
-                  <CheckCircle2 size={16} color="var(--orange)" />
+                  <CheckCircle2 size={15} color="var(--accent)" />
                   <span>4-Stage Cognitive Retention Protocol</span>
                 </div>
                 <div className="feature-item">
-                  <CheckCircle2 size={16} color="var(--orange)" />
-                  <span>Interactive AI Reliance Self-Audit Tool</span>
+                  <CheckCircle2 size={15} color="var(--accent)" />
+                  <span>Interactive AI Reliance Self-Audit & Feynman Tool</span>
                 </div>
               </div>
 
               <div className="spotlight-actions">
                 <Link to="/reels/reel-02-ai-usage" className="btn btn-primary">
-                  <span>Open Reel 02 Resources</span>
-                  <ArrowRight size={16} />
+                  <span>Open Full Resource Hub</span>
+                  <ArrowRight size={15} />
                 </Link>
                 <Link to="/reels/reel-02-ai-usage#interactive-tool-anchor" className="btn btn-secondary">
                   <span>Take Reliance Audit</span>
@@ -180,8 +217,8 @@ export const HomePage: React.FC = () => {
             <div className="spotlight-right">
               <div className="spotlight-script-card">
                 <div className="script-card-header">
-                  <Terminal size={14} color="var(--orange)" />
-                  <span className="mono-tag">ORIGINAL SCRIPT RECONSTRUCTION</span>
+                  <Terminal size={14} color="var(--text-tertiary)" />
+                  <span className="mono-tag">ORIGINAL SCRIPT BREAKDOWN</span>
                 </div>
                 <div className="script-lines">
                   {reel02.sections.intro.scriptExcerpts?.map((line, idx) => (
@@ -198,66 +235,20 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          THE CONTENT-TO-ACTION SYSTEM (PHASE 2 LIFECYCLE)
-          ========================================================================= */}
-      <section className="lifecycle-section">
-        <div className="container">
-          <div className="lifecycle-header">
-            <span className="mono-tag" style={{ color: 'var(--cyan)' }}>// THE CONTENT LIFECYCLE</span>
-            <h2 className="section-title">From 30-Second Hook to Verifiable Code</h2>
-            <p className="section-desc">
-              We reject the passive dopamine trap of short-form video. Here is how Motivation Code turns every Reel into an actionable engineering workflow.
-            </p>
-          </div>
-
-          <div className="lifecycle-steps-grid">
-            <div className="lifecycle-card">
-              <div className="step-num-pill">01</div>
-              <h4 className="lifecycle-card-title">The Instagram Reel</h4>
-              <p className="lifecycle-card-copy">
-                A sharp confrontation exposing bad habits, inefficient workflows, or the illusion of competence.
-              </p>
-            </div>
-
-            <div className="lifecycle-card">
-              <div className="step-num-pill">02</div>
-              <h4 className="lifecycle-card-title">The Resource Lab</h4>
-              <p className="lifecycle-card-copy">
-                You land on a dedicated page with the core thesis, curated offline tools, and mental models.
-              </p>
-            </div>
-
-            <div className="lifecycle-card">
-              <div className="step-num-pill">03</div>
-              <h4 className="lifecycle-card-title">Socratic Prompts</h4>
-              <p className="lifecycle-card-copy">
-                Copy battle-tested system prompts that turn your LLM into a ruthless, zero-answer oral examiner.
-              </p>
-            </div>
-
-            <div className="lifecycle-card card-accent-glow">
-              <div className="step-num-pill" style={{ background: 'var(--orange)', color: '#fff' }}>04</div>
-              <h4 className="lifecycle-card-title">Real Implementation</h4>
-              <p className="lifecycle-card-copy">
-                Close the browser, open your IDE, and implement raw code that compiles without copilot aids.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          REEL LIBRARY PREVIEW
+          SECTION 4 — REELS ARCHIVE (ORGANISED DISCOVERY)
           ========================================================================= */}
       <section className="reels-preview-section">
         <div className="container">
           <div className="section-header-row">
             <div>
-              <span className="mono-tag" style={{ color: 'var(--orange)' }}>// EDITORIAL ARCHIVE</span>
+              <span className="mono-tag">// EDITORIAL REELS</span>
               <h2 className="section-title">The Reels Library</h2>
+              <p className="section-desc" style={{ marginTop: '4px' }}>
+                Every video is matched with verified tools, prompts, and playbooks.
+              </p>
             </div>
             <Link to="/reels" className="btn btn-secondary btn-sm">
-              <span>View All 4 Reels</span>
+              <span>View All Reels</span>
               <ArrowRight size={14} />
             </Link>
           </div>
@@ -271,16 +262,16 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          TOOLS & WORKFLOWS SPOTLIGHT
+          SECTION 5 — BUILDER-GRADE TOOLS SPOTLIGHT
           ========================================================================= */}
       <section className="tools-preview-section">
         <div className="container">
           <div className="section-header-row">
             <div>
-              <span className="mono-tag" style={{ color: 'var(--green)' }}>// CURATED & VERIFIED</span>
+              <span className="mono-tag">// VERIFIED UTILITIES</span>
               <h2 className="section-title">Builder-Grade Tools</h2>
-              <p className="section-desc" style={{ marginTop: '6px' }}>
-                Handpicked, offline-capable developer utilities tested for zero fluff and privacy.
+              <p className="section-desc" style={{ marginTop: '4px' }}>
+                Tested for zero sponsored fluff, local execution, and durable learning yield.
               </p>
             </div>
             <Link to="/tools" className="btn btn-outline btn-sm">
@@ -294,16 +285,14 @@ export const HomePage: React.FC = () => {
               <div key={tool.id} className="tool-card">
                 <div className="tool-card-top">
                   <span className="badge badge-neutral">{tool.category}</span>
-                  <span className={`badge ${tool.pricing === 'Free / Open-Source' ? 'badge-green' : 'badge-orange'}`}>
-                    {tool.pricing}
-                  </span>
+                  <span className="badge badge-neutral">{tool.pricing}</span>
                 </div>
 
                 <h4 className="tool-name">{tool.name}</h4>
                 <p className="tool-description">{tool.description}</p>
 
                 <div className="tool-why-box">
-                  <span className="mono-tag" style={{ color: 'var(--orange)', fontSize: '0.68rem' }}>WHY IT MATTERS:</span>
+                  <span className="mono-tag" style={{ fontSize: '0.65rem' }}>WHY IT MATTERS:</span>
                   <p>{tool.whyItMatters}</p>
                 </div>
 
@@ -325,29 +314,29 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          CLOSING MANIFESTO CALLOUT
+          SECTION 6 — CLOSING EDITORIAL PULLQUOTE
           ========================================================================= */}
       <section className="closing-callout-section">
         <div className="container">
           <div className="closing-box">
             <div className="closing-badge">
-              <Cpu size={16} color="var(--orange)" />
-              <span className="mono-tag">MOTIVATION CODE PHILOSOPHY</span>
+              <Compass size={15} color="var(--accent)" />
+              <span className="mono-tag">THE MOTIVATION CODE STANDARD</span>
             </div>
 
             <h2 className="closing-title">
               "In the real world, nobody cares how good your prompt was.<br />
-              <span style={{ color: 'var(--orange)' }}>They care what you can actually build."</span>
+              <span style={{ color: 'var(--accent)' }}>They care what you can actually build."</span>
             </h2>
 
             <p className="closing-lead">
-              Turn your Instagram feed from a distraction into an unfair engineering advantage.
+              Turn short-form content into an unfair engineering advantage.
             </p>
 
             <div className="closing-buttons">
               <Link to="/reels/reel-02-ai-usage" className="btn btn-primary btn-lg">
-                <Zap size={18} />
-                <span>Start With Reel 02 Hub</span>
+                <span>Start With Reel 02 Lab</span>
+                <ArrowRight size={15} />
               </Link>
               <Link to="/playbooks" className="btn btn-secondary btn-lg">
                 <span>Explore Action Playbooks</span>

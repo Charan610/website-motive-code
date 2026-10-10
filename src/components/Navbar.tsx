@@ -40,9 +40,9 @@ export const Navbar: React.FC = () => {
           {/* Brand Logo */}
           <Link to="/" className="brand-logo" aria-label="Motivation Code Homepage">
             <div className="logo-glyph">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <path d="M4 20V4L10 12L12 8L14 12L20 4V20" stroke="#FF5E1E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="20" cy="20" r="2" fill="#00E5FF"/>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M4 20V4L10 12L12 8L14 12L20 4V20" stroke="#BD5A38" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="20" cy="20" r="2" fill="#568494"/>
               </svg>
             </div>
             <div className="brand-text">
@@ -120,10 +120,10 @@ export const Navbar: React.FC = () => {
 
           <div className="mobile-featured-box">
             <div className="featured-box-header">
-              <Sparkles size={14} color="var(--orange)" />
-              <span className="mono-tag" style={{ color: 'var(--orange)' }}>FEATURED DISCOVERY</span>
+              <Sparkles size={14} color="var(--accent)" />
+              <span className="mono-tag" style={{ color: 'var(--accent)' }}>FEATURED DISCOVERY</span>
             </div>
-            <h4 style={{ fontSize: '1.05rem', margin: '8px 0 4px', color: 'var(--text-primary)' }}>
+            <h4 style={{ fontSize: '1rem', margin: '8px 0 4px', color: 'var(--text-primary)' }}>
               Reel 02: You're Using AI Wrong
             </h4>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '14px' }}>

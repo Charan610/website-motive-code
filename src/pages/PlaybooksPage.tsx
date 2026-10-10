@@ -16,7 +16,7 @@ export const PlaybooksPage: React.FC = () => {
         {/* Editorial Header */}
         <div className="page-editorial-header">
           <div className="header-meta">
-            <span className="mono-tag" style={{ color: 'var(--orange)' }}>// PRACTICAL ACTION MANUALS</span>
+            <span className="mono-tag">// PRACTICAL ACTION MANUALS</span>
             <span className="badge badge-neutral">{PLAYBOOKS_DATA.length} STEP-BY-STEP PLAYBOOKS</span>
           </div>
 

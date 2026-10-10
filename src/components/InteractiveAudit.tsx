@@ -154,7 +154,7 @@ export const InteractiveAudit: React.FC = () => {
       <div className="audit-tool-header">
         <div className="flex-between" style={{ flexWrap: 'wrap', gap: '16px' }}>
           <div>
-            <span className="mono-tag" style={{ color: 'var(--cyan)' }}>// PURPOSE-BUILT UTILITY</span>
+            <span className="mono-tag">// PURPOSE-BUILT UTILITY</span>
             <h3 className="audit-main-title">The Cognitive Retention & Reliance Simulator</h3>
             <p className="audit-subtitle">
               Verify whether you own the concept, or whether you are only borrowing answers from an AI.
@@ -228,7 +228,7 @@ export const InteractiveAudit: React.FC = () => {
             <p className="verdict-desc">{verdict.description}</p>
 
             <div className="prescription-box">
-              <Zap size={16} color="var(--orange)" />
+              <Zap size={15} color="var(--accent)" />
               <div>
                 <strong>Recommended Action:</strong> {verdict.prescription}
               </div>
@@ -276,12 +276,12 @@ export const InteractiveAudit: React.FC = () => {
             <div className="feynman-results-card">
               <div className="flex-between" style={{ marginBottom: '14px' }}>
                 <div className="flex-center" style={{ gap: '10px' }}>
-                  <Award size={20} color="var(--orange)" />
-                  <h4 style={{ fontSize: '1.2rem', color: 'var(--text-primary)' }}>
+                  <Award size={18} color="var(--accent)" />
+                  <h4 style={{ fontSize: '1.15rem', color: 'var(--text-primary)' }}>
                     Diagnostic: {feynmanResult.grade}
                   </h4>
                 </div>
-                <span className="badge badge-orange">{feynmanResult.score} / 100 FIDELITY</span>
+                <span className="badge badge-neutral">{feynmanResult.score} / 100 FIDELITY</span>
               </div>
 
               <div className="feynman-diagnostics-list">

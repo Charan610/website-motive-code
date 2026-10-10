@@ -36,7 +36,7 @@ export const ToolsPage: React.FC = () => {
         {/* Editorial Header */}
         <div className="page-editorial-header">
           <div className="header-meta">
-            <span className="mono-tag" style={{ color: 'var(--green)' }}>// BUILDER ECOSYSTEM</span>
+            <span className="mono-tag">// BUILDER ECOSYSTEM</span>
             <span className="badge badge-neutral">{TOOLS_DATA.length} VERIFIED UTILITIES</span>
           </div>
 

@@ -32,7 +32,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({ reel, featured = false }) =>
 
       <div className="card-body">
         <div className="card-category">
-          <span className="mono-tag" style={{ color: 'var(--orange)' }}>{reel.topic}</span>
+          <span className="mono-tag">{reel.topic}</span>
         </div>
 
         <h3 className="card-title">
@@ -61,7 +61,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({ reel, featured = false }) =>
           ))}
           {reel.hasInteractiveTool && (
             <span className="tag-chip tool-chip">
-              <Sparkles size={11} color="var(--cyan)" />
+              <Sparkles size={11} />
               Interactive Tool
             </span>
           )}

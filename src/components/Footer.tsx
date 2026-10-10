@@ -24,10 +24,10 @@ export const Footer: React.FC = () => {
         {/* Top Editorial Banner */}
         <div className="footer-manifesto">
           <div className="manifesto-left">
-            <span className="mono-tag" style={{ color: 'var(--orange)' }}>// THE MOTIVATION CODE STANDARD</span>
+            <span className="mono-tag" style={{ color: 'var(--accent)' }}>// THE MOTIVATION CODE STANDARD</span>
             <h3 className="manifesto-heading">
               Stop collecting answers. <br />
-              <span style={{ color: 'var(--orange)' }}>Start building skills.</span>
+              <span style={{ color: 'var(--accent)' }}>Start building skills.</span>
             </h3>
             <p className="manifesto-desc">
               Every Instagram Reel on Motivation Code links directly to verified tools, unprompted workflows, and interactive mental models designed to survive beyond the screen.
@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
           <div className="manifesto-right">
             <div className="dispatch-card">
               <div className="dispatch-header">
-                <Terminal size={16} color="var(--orange)" />
+                <Terminal size={15} color="var(--accent)" />
                 <span className="mono-tag">BUILDER DISPATCH</span>
               </div>
               <p className="dispatch-copy">
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
             <div className="brand-logo" style={{ marginBottom: '16px' }}>
               <div className="logo-glyph">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 20V4L10 12L12 8L14 12L20 4V20" stroke="#FF5E1E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M4 20V4L10 12L12 8L14 12L20 4V20" stroke="#BD5A38" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
               <div className="brand-text">
