@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { reelsData } from '../../data/reelsData';
 import { toolsData } from '../../data/toolsData';
@@ -90,6 +90,15 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       ).slice(0, 10)
     : allItems.slice(0, 8);
 
+  const executeItem = useCallback((item: SearchItem) => {
+    onClose();
+    if (item.url) {
+      navigate(item.url);
+    } else if (item.action) {
+      item.action();
+    }
+  }, [navigate, onClose]);
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -115,16 +124,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, filteredItems, selectedIndex]);
+  }, [isOpen, filteredItems, selectedIndex, executeItem, onClose]);
 
-  const executeItem = (item: SearchItem) => {
-    onClose();
-    if (item.url) {
-      navigate(item.url);
-    } else if (item.action) {
-      item.action();
-    }
-  };
+
 
   if (!isOpen) return null;
 

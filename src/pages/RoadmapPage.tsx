@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Compass,
@@ -29,10 +29,10 @@ import type {
 } from '../types/roadmap';
 import {
   BRANCH_REGISTRY,
-  DIAGNOSTIC_QUESTIONS,
 } from '../data/roadmapData';
 import {
   generateRoadmapPlan,
+  getDiagnosticQuestions,
 } from '../lib/roadmapEngine';
 import {
   generateUUID,
@@ -48,9 +48,9 @@ import { useToast } from '../components/Toast';
 
 export const RoadmapPage: React.FC = () => {
   const { showToast } = useToast();
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
-  const [planResult, setPlanResult] = useState<RoadmapPlanResult | null>(null);
-  const [currentStep, setCurrentStep] = useState<'landing' | 'wizard' | 'plan' | 'recover'>('landing');
+  const [profile, setProfile] = useState<StudentProfile | null>(getSavedStudentProfile);
+  const [planResult, setPlanResult] = useState<RoadmapPlanResult | null>(() => profile ? generateRoadmapPlan(profile) : null);
+  const [currentStep, setCurrentStep] = useState<'landing' | 'wizard' | 'plan' | 'recover'>(() => profile ? 'plan' : 'landing');
 
   // Wizard state
   const [wizardStep, setWizardStep] = useState<number>(1);
@@ -70,18 +70,19 @@ export const RoadmapPage: React.FC = () => {
   const [recoveryError, setRecoveryError] = useState<string>('');
   const [copiedKey, setCopiedKey] = useState<boolean>(false);
 
-  // Load existing plan on mount
-  useEffect(() => {
-    const saved = getSavedStudentProfile();
-    if (saved) {
-      setProfile(saved);
-      const generated = generateRoadmapPlan(saved);
-      setPlanResult(generated);
-      setCurrentStep('plan');
-    }
-  }, []);
-
   const handleStartWizard = () => {
+    if (profile) {
+      setSelectedBranch(profile.branch);
+      setSelectedRegulation(profile.regulation);
+      setSelectedYear(profile.year);
+      setSelectedSemester(profile.semester);
+      setSelectedGoal(profile.goal);
+      setSelectedAvailability(profile.weeklyAvailability);
+      setSelectedObstacle(profile.primaryObstacle);
+      setUsernameInput(profile.displayName);
+    }
+    setAnswers({});
+    setUsernameError('');
     setWizardStep(1);
     setCurrentStep('wizard');
   };
@@ -94,6 +95,11 @@ export const RoadmapPage: React.FC = () => {
     e.preventDefault();
     setUsernameError('');
 
+    const questions = getDiagnosticQuestions(selectedBranch, selectedYear);
+    if (!questions.length || questions.some(q => answers[q.id] === undefined)) {
+      setWizardStep(3);
+      return;
+    }
     const availabilityCheck = checkUsernameAvailable(usernameInput, profile?.id);
     if (!availabilityCheck.available) {
       setUsernameError('Handle already in use or too short (minimum 3 characters). Choose another name.');
@@ -117,13 +123,13 @@ export const RoadmapPage: React.FC = () => {
       lastUpdated: new Date().toISOString(),
     };
 
-    saveStudentProfile(newProfile);
+    const saved = saveStudentProfile(newProfile);
     setProfile(newProfile);
 
     const plan = generateRoadmapPlan(newProfile);
     setPlanResult(plan);
     setCurrentStep('plan');
-    showToast('Your personalized SRKR roadmap has been generated!');
+    showToast(saved ? 'Your learning roadmap is ready.' : 'Your plan is ready, but browser storage is unavailable. Export a copy to keep it.', saved ? 'success' : 'error');
   };
 
   const handleRestorePlan = (e: React.FormEvent) => {
@@ -136,7 +142,7 @@ export const RoadmapPage: React.FC = () => {
       setCurrentStep('plan');
       showToast(`Welcome back, ${restored.displayName}! Plan restored.`);
     } else {
-      setRecoveryError('Recovery token or Plan ID not found. Verify the token format (e.g. MC-XXXX-XXXX-XXXX).');
+      setRecoveryError('No matching plan is stored in this browser. Check your key, or use the browser where you created the plan.');
     }
   };
 
@@ -175,9 +181,7 @@ export const RoadmapPage: React.FC = () => {
     }
   };
 
-  const currentBranchQuestions = DIAGNOSTIC_QUESTIONS.filter(
-    (q) => q.branch === (selectedBranch === 'AIDS' ? 'CSE' : selectedBranch)
-  );
+  const currentBranchQuestions = getDiagnosticQuestions(selectedBranch, selectedYear);
 
   return (
     <div className="workspace-home roadmap-page">
@@ -189,10 +193,10 @@ export const RoadmapPage: React.FC = () => {
           <header className="roadmap-hero">
             <div className="roadmap-hero-badge">
               <Compass size={14} color="var(--accent)" />
-              <span className="mono-tag">// REEL 03 DELIVERABLE</span>
+              <span className="mono-tag">REEL 03 · LEARNING ROADMAP</span>
               <span className="header-divider">/</span>
               <span className="mono-tag" style={{ color: 'var(--text-tertiary)' }}>
-                SRKR AUTONOMOUS CURRICULUM
+                FOR SRKR STUDENTS
               </span>
             </div>
 
@@ -211,7 +215,7 @@ export const RoadmapPage: React.FC = () => {
                 className="btn-base btn-primary btn-lg"
                 onClick={handleStartWizard}
               >
-                <span>Start 3-Minute Diagnostic</span>
+                <span>Start Quick Diagnostic</span>
                 <ArrowRight size={17} />
               </button>
 
@@ -230,9 +234,9 @@ export const RoadmapPage: React.FC = () => {
           <section className="roadmap-pillars-grid">
             <div className="roadmap-pillar-card">
               <div className="pillar-num">01</div>
-              <h3>Curriculum Crosswalked</h3>
+              <h3>A starting point for your branch</h3>
               <p>
-                Mapped directly against SRKR R20 and R23 autonomous regulations for CSE, ECE, EEE, and Mechanical Engineering.
+                Branch-based learning suggestions for CSE, ECE, EEE, and Mechanical Engineering. Check course requirements against your current college syllabus.
               </p>
             </div>
 
@@ -254,9 +258,9 @@ export const RoadmapPage: React.FC = () => {
 
             <div className="roadmap-pillar-card">
               <div className="pillar-num">04</div>
-              <h3>Zero Plaintext Passwords</h3>
+              <h3>Saved on this device</h3>
               <p>
-                Zero-knowledge persistence. Your plan is identified by an immutable UUID and protected by a private 16-character recovery token.
+                No account required. Your plan stays in this browser. Export a copy to keep your checklist outside this device.
               </p>
             </div>
           </section>
@@ -310,7 +314,7 @@ export const RoadmapPage: React.FC = () => {
                 {wizardStep === 1 && 'Academic Profile'}
                 {wizardStep === 2 && 'Goal & Time Constraints'}
                 {wizardStep === 3 && 'Branch Prerequisite Check'}
-                {wizardStep === 4 && 'Handle & Final Synthesis'}
+                {wizardStep === 4 && 'Save Your Plan'}
               </span>
             </div>
           </div>
@@ -321,7 +325,7 @@ export const RoadmapPage: React.FC = () => {
               <div className="wizard-step-content">
                 <h2>Where are you studying?</h2>
                 <p className="wizard-desc">
-                  We configure course codes and semester milestones to match SRKR autonomous academic structures.
+                  Choose your branch and year to tailor the diagnostic and suggested projects.
                 </p>
 
                 <div className="wizard-fields">
@@ -333,7 +337,7 @@ export const RoadmapPage: React.FC = () => {
                       onChange={(e) => setSelectedBranch(e.target.value as EngineeringBranch)}
                     >
                       {BRANCH_REGISTRY.map((b) => (
-                        <option key={b.code} value={b.code}>
+                        <option key={b.code} value={b.code} disabled={!b.isSupported}>
                           {b.name} ({b.code}) {!b.isSupported ? '— [Validation in Progress]' : ''}
                         </option>
                       ))}
@@ -348,8 +352,8 @@ export const RoadmapPage: React.FC = () => {
                         value={selectedRegulation}
                         onChange={(e) => setSelectedRegulation(e.target.value as CurriculumRegulation)}
                       >
-                        <option value="R23">R23 Regulation (Current 1st & 2nd Year)</option>
-                        <option value="R20">R20 Regulation (Current 3rd & 4th Year)</option>
+                        <option value="R23">R23 Regulation</option>
+                        <option value="R20">R20 Regulation</option>
                       </select>
                     </label>
 
@@ -508,6 +512,7 @@ export const RoadmapPage: React.FC = () => {
                               key={optIdx}
                               type="button"
                               className={`diag-option-btn ${isSelected ? 'selected' : ''}`}
+                              aria-pressed={isSelected}
                               onClick={() => handleSelectAnswer(q.id, optIdx)}
                             >
                               <span className="diag-option-letter">
@@ -533,6 +538,7 @@ export const RoadmapPage: React.FC = () => {
                   <button
                     type="button"
                     className="btn-base btn-primary btn-md"
+                    disabled={currentBranchQuestions.length === 0 || currentBranchQuestions.some(q => answers[q.id] === undefined)}
                     onClick={() => setWizardStep(4)}
                   >
                     <span>Next: Generate Plan</span>
@@ -542,12 +548,12 @@ export const RoadmapPage: React.FC = () => {
               </div>
             )}
 
-            {/* STEP 4: Handle & Final Synthesis */}
+            {/* STEP 4: Save Your Plan */}
             {wizardStep === 4 && (
               <form onSubmit={handleGeneratePlan} className="wizard-step-content">
                 <h2>Choose your student handle</h2>
                 <p className="wizard-desc">
-                  Your handle identifies your saved plan. No password required: we automatically generate a secure 16-character recovery key for cross-device access.
+                  Choose a name for your plan. It is saved in this browser; a local recovery key lets you reopen it here.
                 </p>
 
                 <div className="wizard-fields">
@@ -567,9 +573,9 @@ export const RoadmapPage: React.FC = () => {
                   <div className="security-guarantee-box">
                     <ShieldCheck size={20} color="var(--accent-secondary)" />
                     <div>
-                      <strong>Zero-Knowledge Security Architecture</strong>
+                      <strong>Local storage, no account</strong>
                       <p>
-                        Anyone knowing your username CANNOT modify your plan. Plan ownership is cryptographically gated by your Recovery Key.
+                        This is not a cloud account or encrypted backup. Anyone using this browser can access its saved plans. Clearing browser data removes them.
                       </p>
                     </div>
                   </div>
@@ -614,7 +620,7 @@ export const RoadmapPage: React.FC = () => {
                   Engineering Action Roadmap<span>.</span>
                 </h1>
                 <p className="plan-subtitle">
-                  Plan generated for <strong>@{profile.displayName}</strong>. Grounded in SRKR autonomous curricula.
+                  Plan generated for <strong>@{profile.displayName}</strong>. Use this as a learning guide alongside your college syllabus.
                 </p>
               </div>
 
@@ -651,9 +657,9 @@ export const RoadmapPage: React.FC = () => {
             {/* Recovery Key Banner */}
             <div className="recovery-pill-banner">
               <Key size={14} color="var(--accent)" />
-              <span>Your Private Recovery Token:</span>
+              <span>Local recovery key:</span>
               <code className="recovery-token-code">{profile.recoveryKey}</code>
-              <small>(Save this token to restore your plan on any mobile or desktop browser)</small>
+              <small>(Works only in this browser while its stored data remains available)</small>
             </div>
           </div>
 
@@ -842,7 +848,7 @@ export const RoadmapPage: React.FC = () => {
           <div className="recover-card">
             <h2>Restore your saved roadmap</h2>
             <p className="recover-desc">
-              Enter the 16-character Recovery Key (e.g. <code>MC-XXXX-XXXX-XXXX</code>) or your internal Plan ID generated during diagnostic creation.
+              Enter the recovery key (e.g. <code>MC-XXXX-XXXX-XXXX</code>) for a plan saved in this browser. This cannot recover plans on another device or after browser data is cleared.
             </p>
 
             <form onSubmit={handleRestorePlan}>

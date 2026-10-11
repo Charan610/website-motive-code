@@ -215,7 +215,7 @@ export function HomePage() {
         <div className="spotlight-left">
           <div className="spotlight-badge">
             <span className="spotlight-dot" />
-            <span>REEL 03 DELIVERABLE · SRKR AUTONOMOUS</span>
+            <span>REEL 03 · YOUR NEXT STEP</span>
           </div>
           <h2 id="roadmap-spotlight-title">
             You’re in engineering.
@@ -223,11 +223,11 @@ export function HomePage() {
             <em>What should you learn next?</em>
           </h2>
           <p>
-            Stop collecting random tutorials. Take our 3-minute diagnostic for your branch, year, and goals. Get an evidence-based roadmap with verifiable build milestones.
+            Choose your branch, check your foundations, and leave with a focused project plan. Clear next steps, practical milestones, and room to learn at your own pace.
           </p>
           <div className="spotlight-actions">
             <Link to="/roadmap" className="btn-base btn-primary btn-md">
-              <span>Start 3-Minute Diagnostic</span>
+              <span>Find my next step</span>
               <ArrowRight size={16} />
             </Link>
             <span className="spotlight-meta">

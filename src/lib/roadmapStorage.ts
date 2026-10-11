@@ -1,7 +1,24 @@
+import { BRANCH_REGISTRY } from '../data/roadmapData';
 import type { StudentProfile } from '../types/roadmap';
 
 const STORAGE_PROFILE_KEY = 'mc_roadmap_profile_v1';
 const STORAGE_REGISTRY_KEY = 'mc_roadmap_registry_v1';
+
+export function isStudentProfile(value: unknown): value is StudentProfile {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const p = value as Record<string, unknown>;
+  return ['id', 'displayName', 'recoveryKey', 'createdAt', 'lastUpdated'].every(k => typeof p[k] === 'string' && p[k] !== '')
+    && BRANCH_REGISTRY.some(b => b.isSupported && b.code === p.branch)
+    && ['R20', 'R23'].includes(String(p.regulation))
+    && [1, 2, 3, 4].includes(p.year as number)
+    && [Number(p.year) * 2 - 1, Number(p.year) * 2].includes(p.semester as number)
+    && ['placements', 'core_engineering', 'higher_studies', 'products'].includes(String(p.goal))
+    && ['light', 'standard', 'intensive'].includes(String(p.weeklyAvailability))
+    && ['fundamentals', 'projects', 'no_direction', 'time'].includes(String(p.primaryObstacle))
+    && !!p.diagnosticAnswers && typeof p.diagnosticAnswers === 'object' && !Array.isArray(p.diagnosticAnswers)
+    && Object.values(p.diagnosticAnswers).every(v => Number.isInteger(v) && Number(v) >= 0 && Number(v) < 4)
+    && Array.isArray(p.completedActionIds) && p.completedActionIds.every(v => typeof v === 'string');
+}
 
 export function generateUUID(): string {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
@@ -31,12 +48,14 @@ export function normalizeUsername(raw: string): string {
   return raw.trim().toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
 }
 
-// Registry helpers (simulates server-side registry in browser storage)
+// Local registry of plans saved in this browser
 function getRegistry(): Record<string, StudentProfile> {
   if (typeof window === 'undefined') return {};
   try {
     const raw = localStorage.getItem(STORAGE_REGISTRY_KEY);
-    return raw ? JSON.parse(raw) : {};
+    const parsed: unknown = raw ? JSON.parse(raw) : {};
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    return Object.fromEntries(Object.entries(parsed).filter(([, value]) => isStudentProfile(value)));
   } catch {
     return {};
   }
@@ -67,8 +86,8 @@ export function checkUsernameAvailable(rawUsername: string, currentId?: string):
   };
 }
 
-export function saveStudentProfile(profile: StudentProfile): void {
-  if (typeof window === 'undefined') return;
+export function saveStudentProfile(profile: StudentProfile): boolean {
+  if (typeof window === 'undefined' || !isStudentProfile(profile)) return false;
   try {
     const updated = {
       ...profile,
@@ -76,14 +95,15 @@ export function saveStudentProfile(profile: StudentProfile): void {
     };
     localStorage.setItem(STORAGE_PROFILE_KEY, JSON.stringify(updated));
 
-    // Update global plan registry
+    // Update this browser’s plan registry
     const registry = getRegistry();
     registry[profile.id] = updated;
     saveRegistry(registry);
 
     window.dispatchEvent(new Event('roadmap_profile_updated'));
+    return true;
   } catch {
-    // Storage quota fallback
+    return false; // Browser storage may be disabled or full.
   }
 }
 
@@ -92,7 +112,8 @@ export function getSavedStudentProfile(): StudentProfile | null {
   try {
     const raw = localStorage.getItem(STORAGE_PROFILE_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const parsed: unknown = JSON.parse(raw);
+    return isStudentProfile(parsed) ? parsed : null;
   } catch {
     return null;
   }
@@ -145,13 +166,13 @@ export function exportPlanAsMarkdown(profile: StudentProfile, checklist: string[
 
 ## The Motivation Code Rule
 1. Do not ask AI for unearned code. Draft your mental model cold on a blank scratchpad first.
-2. Build verified software: run automated test suites with \`-Wall -Wextra\`.
+2. Verify your build against its acceptance criteria, using tests and compiler warnings where applicable.
 3. Keep the thinking yours.
 
 ## Competency Readiness Checklist
 ${checklist.map((item) => `- [ ] ${item}`).join('\n')}
 
 ---
-*Preserve your recovery token (${profile.recoveryKey}) to restore your progress on any browser at https://website-motive-code.vercel.app/roadmap*
+*The recovery key only works in the original browser while its saved data remains available. Keep this export as a separate copy; it is not an importable backup.*
 `;
 }

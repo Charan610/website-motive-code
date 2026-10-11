@@ -10,14 +10,17 @@ import {
   BRANCH_MILESTONES,
 } from '../data/roadmapData';
 
+export function getDiagnosticQuestions(branch: EngineeringBranch, year: number) {
+  const effectiveBranch = branch === 'AIDS' ? 'CSE' : branch;
+  return DIAGNOSTIC_QUESTIONS.filter(q => q.branch === effectiveBranch && q.minYear <= year);
+}
+
 export function evaluateDiagnostic(profile: StudentProfile): {
   total: number;
   correct: number;
   missedTags: string[];
 } {
-  const branchQuestions = DIAGNOSTIC_QUESTIONS.filter(
-    (q) => q.branch === (profile.branch === 'AIDS' ? 'CSE' : profile.branch)
-  );
+  const branchQuestions = getDiagnosticQuestions(profile.branch, profile.year);
 
   let correct = 0;
   const missedTags: string[] = [];
@@ -62,7 +65,6 @@ export function generateRoadmapPlan(profile: StudentProfile): RoadmapPlanResult 
   // 3. Fetch Milestones for Year
   const branchYearMilestones =
     BRANCH_MILESTONES[effectiveBranch]?.[profile.year] ||
-    BRANCH_MILESTONES.CSE[profile.year] ||
     [];
 
   // 4. Filter & Size Actions according to Weekly Availability & Goal
@@ -96,8 +98,8 @@ export function generateRoadmapPlan(profile: StudentProfile): RoadmapPlanResult 
   // 6. Generate Observable Competency Checklist
   const competencyChecklist: string[] = [
     `Complete weekly cold-recall draft before opening AI chat or documentation`,
-    `Pass all automated test cases and compile with zero warnings (-Wall -Wextra)`,
-    `Document architectural trade-offs and time/space complexity in project README`,
+    `Verify your build against its acceptance criteria; use tests and compiler warnings where applicable`,
+    `Document your design decisions and measurements in a project README`,
     `Demonstrate running terminal command or hardware output without reading notes`,
   ];
 

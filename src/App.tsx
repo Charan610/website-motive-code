@@ -1,3 +1,4 @@
+import { NotFoundPage } from './pages/NotFoundPage';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import './index.css';
@@ -71,7 +72,7 @@ export function App() {
               <Route path="/tools" element={<ToolsPage />} />
               <Route path="/playbooks" element={<PlaybooksPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="*" element={<HomePage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
 

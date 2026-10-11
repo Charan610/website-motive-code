@@ -1,3 +1,4 @@
+import { reelsData } from "../data/reelsData";
 import { useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import {
@@ -74,7 +75,7 @@ export function Navbar({ onOpenCommandPalette, onOpenProgress }: NavbarProps) {
             >
               <Icon size={18} />
               <span>{label}</span>
-              {to === "/reels" && <small>04</small>}
+              {to === "/reels" && <small>{String(reelsData.length).padStart(2, "0")}</small>}
               {badge && (
                 <small
                   style={{
